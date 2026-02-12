@@ -96,7 +96,7 @@ export function Footer() {
         <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-6">
             {/* Logo + Copyright + 501c3 + Legal */}
-            <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
+            <div className="flex items-start gap-6">
               <Image
                 src="/images/BVP-logo.png"
                 alt="Black Veterans Project"
@@ -104,7 +104,7 @@ export function Footer() {
                 height={80}
                 className="h-14 md:h-[70px] w-auto brightness-0 invert"
               />
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <p className="text-[15px] text-white/80">
                   © {new Date().getFullYear()} Black Veterans Project. All rights reserved.
                 </p>
