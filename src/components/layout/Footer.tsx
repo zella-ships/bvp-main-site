@@ -26,19 +26,18 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="bg-black text-white py-16 md:py-20 px-6 md:px-[92px]">
+    <footer className="bg-black text-white py-16 md:py-24 px-6 md:px-24">
       <div className="max-w-[1400px] mx-auto">
         {/* Navigation Columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-16 mb-12 max-w-3xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-24 mb-16">
           {/* About Us */}
           <div>
-            <h4 className="font-display text-white mb-4">About Us</h4>
-            <ul className="space-y-3">
+            <h4 className="font-bold text-white text-base mb-6">About Us</h4>
+            <ul className="space-y-4">
               {footerLinks.aboutUs.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="relative text-base leading-relaxed text-white/70 hover:text-white transition-colors group">
+                  <Link href={link.href} className="text-[15px] text-white/50 hover:text-white transition-colors">
                     {link.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#FDC500] group-hover:w-full transition-all duration-300" />
                   </Link>
                 </li>
               ))}
@@ -47,13 +46,12 @@ export function Footer() {
 
           {/* Our Work */}
           <div>
-            <h4 className="font-display text-white mb-4">Our Work</h4>
-            <ul className="space-y-3">
+            <h4 className="font-bold text-white text-base mb-6">Our Work</h4>
+            <ul className="space-y-4">
               {footerLinks.ourWork.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="relative text-base leading-relaxed text-white/70 hover:text-white transition-colors group">
+                  <Link href={link.href} className="text-[15px] text-white/50 hover:text-white transition-colors">
                     {link.name}
-                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#FDC500] group-hover:w-full transition-all duration-300" />
                   </Link>
                 </li>
               ))}
@@ -61,18 +59,16 @@ export function Footer() {
           </div>
 
           {/* Join Us + FAQ */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div>
-              <Link href="/join" className="relative font-display text-white hover:text-white transition-colors group">
+              <Link href="/join" className="text-[15px] text-white/50 hover:text-white transition-colors">
                 Join Us
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#FDC500] group-hover:w-full transition-all duration-300" />
               </Link>
             </div>
 
             <div>
-              <Link href="/faq" className="relative font-display text-white hover:text-white transition-colors group">
+              <Link href="/faq" className="text-[15px] text-white/50 hover:text-white transition-colors">
                 Frequently Asked Questions
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#FDC500] group-hover:w-full transition-all duration-300" />
               </Link>
             </div>
           </div>
