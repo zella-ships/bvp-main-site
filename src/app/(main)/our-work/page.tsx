@@ -489,7 +489,7 @@ export default function OurWorkPage() {
               </p>
 
               <CTABox
-                title="Are you a Black veteran who's experienced benefit barriers or delays?"
+                title="Are you a veteran who's experienced benefit barriers or delays?"
                 buttonText="Become a member →"
                 href="/join"
               />
@@ -515,8 +515,8 @@ export default function OurWorkPage() {
               </p>
 
               <CTABox
-                title="Are you a veteran, family member, artist, scholar, or archivist?"
-                buttonText="Explore our Substack →"
+                title="Connect with stories, research, and dispatches from the movement for reparative justice"
+                buttonText="Explore/Sign up to our Substack →"
                 href="#"
               />
             </div>
@@ -548,7 +548,7 @@ export default function OurWorkPage() {
               </p>
 
               <CTABox
-                title="Are you a Black veteran or from a military family?"
+                title="Are you a veteran or from a military family?"
                 buttonText="Join the movement →"
                 href="/join"
               />
