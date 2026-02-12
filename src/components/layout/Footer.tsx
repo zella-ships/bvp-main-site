@@ -14,29 +14,34 @@ const footerLinks = {
   ourWork: [
     { name: "The Case for Repair", href: "/our-work#case-for-repair" },
     { name: "Impact Litigation", href: "/our-work#litigation" },
-    { name: "Narrative Building", href: "/our-work#narrative" },
+    { name: "Narrative Hub", href: "/our-work#narrative" },
     { name: "Mobilization", href: "/our-work#mobilization" },
   ],
-  legal: [
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms of Use", href: "/terms" },
-    { name: "Accessibility", href: "/accessibility" },
+  resources: [
+    { name: "FAQ", href: "/faq" },
+    { name: "Archived Press", href: "/press" },
+    { name: "Financials & 990", href: "/financials" },
+  ],
+  takeAction: [
+    { name: "Donate", href: "/donate" },
+    { name: "Become a Member", href: "/join" },
+    { name: "Contact", href: "/contact" },
   ],
 };
 
 export function Footer() {
   return (
-    <footer className="bg-black text-white py-16 md:py-24 px-6 md:px-24">
+    <footer className="bg-black text-white py-12 md:py-16 px-6 md:px-24">
       <div className="max-w-[1400px] mx-auto">
         {/* Navigation Columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-24 mb-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
           {/* About Us */}
           <div>
-            <h4 className="font-bold text-white text-base mb-6">About Us</h4>
-            <ul className="space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-6">About Us</h4>
+            <ul className="space-y-3">
               {footerLinks.aboutUs.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-[15px] text-white/50 hover:text-white transition-colors">
+                  <Link href={link.href} className="text-sm text-white/80 hover:text-white transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -46,11 +51,11 @@ export function Footer() {
 
           {/* Our Work */}
           <div>
-            <h4 className="font-bold text-white text-base mb-6">Our Work</h4>
-            <ul className="space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-6">Our Work</h4>
+            <ul className="space-y-3">
               {footerLinks.ourWork.map((link) => (
                 <li key={link.name}>
-                  <Link href={link.href} className="text-[15px] text-white/50 hover:text-white transition-colors">
+                  <Link href={link.href} className="text-sm text-white/80 hover:text-white transition-colors">
                     {link.name}
                   </Link>
                 </li>
@@ -58,19 +63,32 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Join Us + FAQ */}
-          <div className="space-y-6">
-            <div>
-              <Link href="/join" className="text-[15px] text-white/50 hover:text-white transition-colors">
-                Join Us
-              </Link>
-            </div>
+          {/* Resources */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-6">Resources</h4>
+            <ul className="space-y-3">
+              {footerLinks.resources.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-sm text-white/80 hover:text-white transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div>
-              <Link href="/faq" className="text-[15px] text-white/50 hover:text-white transition-colors">
-                Frequently Asked Questions
-              </Link>
-            </div>
+          {/* Take Action */}
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-white/40 mb-6">Take Action</h4>
+            <ul className="space-y-3">
+              {footerLinks.takeAction.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href} className="text-sm text-white/80 hover:text-white transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
