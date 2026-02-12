@@ -74,6 +74,7 @@ interface InputFieldProps {
   onChange: (value: string) => void;
   required?: boolean;
   id: string;
+  autoComplete?: string;
 }
 
 function InputField({
@@ -84,6 +85,7 @@ function InputField({
   onChange,
   required,
   id,
+  autoComplete,
 }: InputFieldProps) {
   return (
     <div className="flex flex-col">
@@ -101,6 +103,7 @@ function InputField({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         required={required}
+        autoComplete={autoComplete}
         className="w-full bg-white border border-gray-300 text-black font-body text-[15px] px-3.5 py-3 transition-colors focus:border-black focus:outline-none placeholder:text-gray-400"
         aria-required={required}
       />
@@ -265,9 +268,9 @@ function MembershipCard({
       }`}
       aria-expanded={expanded}
     >
-      <h3 className="text-[22px] font-extrabold text-black mb-3 font-display">
+      <h2 className="text-[22px] font-extrabold text-black mb-3 font-display">
         {title}
-      </h3>
+      </h2>
       <p className="text-[15px] leading-relaxed text-gray-600 mb-5">
         {description}
       </p>
@@ -590,6 +593,7 @@ export default function JoinPage() {
                                 firstName: e.target.value,
                               }))
                             }
+                            autoComplete="given-name"
                             className="w-full bg-white border border-gray-300 text-black font-body text-[15px] px-3.5 py-3 transition-colors focus:border-black focus:outline-none placeholder:text-gray-400"
                             required
                           />
@@ -603,6 +607,7 @@ export default function JoinPage() {
                             setBasicForm((f) => ({ ...f, lastName: v }))
                           }
                           required
+                          autoComplete="family-name"
                         />
                       </div>
 
@@ -616,6 +621,7 @@ export default function JoinPage() {
                           setBasicForm((f) => ({ ...f, email: v }))
                         }
                         required
+                        autoComplete="email"
                       />
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -627,6 +633,7 @@ export default function JoinPage() {
                           onChange={(v) =>
                             setBasicForm((f) => ({ ...f, zipCode: v }))
                           }
+                          autoComplete="postal-code"
                         />
                         <SelectField
                           id="basic-memberType"
@@ -732,6 +739,7 @@ export default function JoinPage() {
                       setAdvocateForm((f) => ({ ...f, firstName: v }))
                     }
                     required
+                    autoComplete="given-name"
                   />
                   <InputField
                     id="adv-lastName"
@@ -742,6 +750,7 @@ export default function JoinPage() {
                       setAdvocateForm((f) => ({ ...f, lastName: v }))
                     }
                     required
+                    autoComplete="family-name"
                   />
                 </div>
 
@@ -753,6 +762,7 @@ export default function JoinPage() {
                   onChange={(v) =>
                     setAdvocateForm((f) => ({ ...f, address: v }))
                   }
+                  autoComplete="street-address"
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -765,6 +775,7 @@ export default function JoinPage() {
                       setAdvocateForm((f) => ({ ...f, zipCode: v }))
                     }
                     required
+                    autoComplete="postal-code"
                   />
                   <InputField
                     id="adv-phone"
@@ -775,6 +786,7 @@ export default function JoinPage() {
                     onChange={(v) =>
                       setAdvocateForm((f) => ({ ...f, phone: v }))
                     }
+                    autoComplete="tel"
                   />
                 </div>
 
@@ -788,6 +800,7 @@ export default function JoinPage() {
                     setAdvocateForm((f) => ({ ...f, email: v }))
                   }
                   required
+                  autoComplete="email"
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1142,10 +1155,6 @@ export default function JoinPage() {
                 >
                   Join as Advocate →
                 </button>
-
-                <p className="text-[13px] text-gray-400 text-center">
-                  We'll be in touch within a week with next steps.
-                </p>
               </form>
             </section>
           </motion.div>

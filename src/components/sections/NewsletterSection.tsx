@@ -1,10 +1,16 @@
 'use client';
 
-import { useState, useId } from 'react';
+import { useState, useId, useRef } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 export function NewsletterSection() {
+  const prefersReducedMotion = useReducedMotion();
+
+  // Refs for focus management on errors
+  const nameInputRef = useRef<HTMLInputElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
+
   // Generate unique IDs for accessibility
   const formId = useId();
   const nameInputId = `${formId}-name`;
@@ -46,6 +52,13 @@ export function NewsletterSection() {
       errors,
       touched: { name: true, email: true }
     }));
+
+    // Focus on first error field for accessibility
+    if (errors.name) {
+      nameInputRef.current?.focus();
+    } else if (errors.email) {
+      emailInputRef.current?.focus();
+    }
 
     if (!errors.name && !errors.email) {
       setFormState(prev => ({ ...prev, isSubmitting: true }));
@@ -141,6 +154,7 @@ export function NewsletterSection() {
                 Your name (required)
               </label>
               <input
+                ref={nameInputRef}
                 id={nameInputId}
                 type="text"
                 placeholder="Your name"
@@ -167,9 +181,10 @@ export function NewsletterSection() {
                     id={nameErrorId}
                     role="alert"
                     aria-live="assertive"
-                    initial={{ opacity: 0, y: -5 }}
+                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
+                    exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -5 }}
+                    transition={prefersReducedMotion ? { duration: 0 } : undefined}
                     className="absolute left-6 -bottom-6 text-[#A63D2F] text-sm"
                   >
                     {formState.errors.name}
@@ -184,6 +199,7 @@ export function NewsletterSection() {
                 Your email address (required)
               </label>
               <input
+                ref={emailInputRef}
                 id={emailInputId}
                 type="email"
                 placeholder="Your email"
@@ -211,9 +227,10 @@ export function NewsletterSection() {
                     id={emailErrorId}
                     role="alert"
                     aria-live="assertive"
-                    initial={{ opacity: 0, y: -5 }}
+                    initial={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
+                    exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: -5 }}
+                    transition={prefersReducedMotion ? { duration: 0 } : undefined}
                     className="absolute left-6 -bottom-6 text-[#A63D2F] text-sm"
                   >
                     {formState.errors.email}
@@ -276,11 +293,15 @@ export function NewsletterSection() {
               >
                 {formState.isSubmitting ? (
                   <span className="flex items-center gap-2">
-                    <motion.span
-                      animate={{ rotate: 360 }}
-                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-                      className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-                    />
+                    {prefersReducedMotion ? (
+                      <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
+                    ) : (
+                      <motion.span
+                        animate={{ rotate: 360 }}
+                        transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                        className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
+                      />
+                    )}
                     Joining...
                   </span>
                 ) : formState.isSuccess ? (

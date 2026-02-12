@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/Button";
 
 // ============================================
 // TYPES
@@ -181,77 +182,8 @@ export default function ContactPage() {
       {/* Content - Two Column Layout */}
       <section>
         <div className="grid md:grid-cols-2">
-          {/* Left: Dark Panel */}
-          <div
-            className="text-white p-8 md:p-12 lg:p-16 flex flex-col"
-            style={{
-              background: "linear-gradient(180deg, #3a3a3a 0%, #1a1a1a 100%)",
-            }}
-          >
-            {/* Email Icon */}
-            <div className="mb-8">
-              <svg
-                className="w-6 h-6 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.5"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                />
-              </svg>
-            </div>
-
-            {/* Main Text */}
-            <div className="mb-6">
-              <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-6">
-                For press, partnerships, and general inquiries:
-              </h2>
-              <a
-                href="mailto:info@blackveteransproject.org"
-                className="text-lg md:text-xl font-bold underline hover:no-underline hover:text-bvp-gold transition-colors"
-              >
-                info@blackveteransproject.org
-              </a>
-              <p className="text-sm text-gray-400 mt-3">
-                or send a message via this form →
-              </p>
-            </div>
-
-            {/* Divider */}
-            <div className="border-t border-white/20 my-8" aria-hidden="true" />
-
-            {/* Follow Section */}
-            <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">
-                Follow
-              </p>
-              <div className="space-y-3">
-                <SocialLink
-                  platform="Instagram"
-                  handle="@blackvetsproject"
-                  href="https://instagram.com/blackvetsproject"
-                />
-                <SocialLink
-                  platform="Twitter / X"
-                  handle="@blackvetsproject"
-                  href="https://twitter.com/blackvetsproject"
-                />
-                <SocialLink
-                  platform="LinkedIn"
-                  handle="Black Veterans Project"
-                  href="https://linkedin.com/company/blackveteransproject"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Form Panel */}
-          <div className="bg-gray-100 p-8 md:p-12 lg:p-16">
+          {/* Form Panel - First on mobile, Right on desktop */}
+          <div className="bg-gray-100 p-8 md:p-12 lg:p-16 order-1 md:order-2">
             <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-8">
               Send a Message
             </p>
@@ -289,6 +221,7 @@ export default function ContactPage() {
                     onChange={(e) =>
                       setFormData((f) => ({ ...f, firstName: e.target.value }))
                     }
+                    autoComplete="given-name"
                     className="w-full py-3 bg-transparent border-b border-gray-300 text-base transition-colors focus:border-black focus:outline-none"
                     placeholder="First"
                   />
@@ -307,6 +240,7 @@ export default function ContactPage() {
                     onChange={(e) =>
                       setFormData((f) => ({ ...f, lastName: e.target.value }))
                     }
+                    autoComplete="family-name"
                     className="w-full py-3 bg-transparent border-b border-gray-300 text-base transition-colors focus:border-black focus:outline-none"
                     placeholder="Last"
                   />
@@ -329,6 +263,7 @@ export default function ContactPage() {
                     setFormData((f) => ({ ...f, email: e.target.value }))
                   }
                   required
+                  autoComplete="email"
                   className="w-full py-3 bg-transparent border-b border-gray-300 text-base transition-colors focus:border-black focus:outline-none"
                   placeholder="you@email.com"
                 />
@@ -382,16 +317,86 @@ export default function ContactPage() {
               </div>
 
               {/* Submit */}
-              <div className="pt-2">
-                <button
+              <div className="pt-4">
+                <Button
                   type="submit"
+                  variant="primary"
+                  size="lg"
                   disabled={isSubmitting || !formData.email}
-                  className="px-10 py-4 text-sm font-bold uppercase tracking-widest bg-black text-white hover:bg-gray-800 transition-colors focus-visible:ring-2 focus-visible:ring-bvp-gold focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? "Sending..." : "Submit"}
-                </button>
+                  {isSubmitting ? "Sending..." : "Submit →"}
+                </Button>
               </div>
             </form>
+          </div>
+
+          {/* Dark Panel - Second on mobile, Left on desktop */}
+          <div
+            className="text-white p-8 md:p-12 lg:p-16 flex flex-col order-2 md:order-1"
+            style={{
+              background: "linear-gradient(180deg, #3a3a3a 0%, #1a1a1a 100%)",
+            }}
+          >
+            {/* Email Icon */}
+            <div className="mb-8">
+              <svg
+                className="w-6 h-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                />
+              </svg>
+            </div>
+
+            {/* Main Text */}
+            <div className="mb-6">
+              <h2 className="text-2xl md:text-3xl font-bold leading-tight mb-6">
+                For press, partnerships, and general inquiries:
+              </h2>
+              <a
+                href="mailto:info@blackveteransproject.org"
+                className="text-lg md:text-xl font-bold underline hover:no-underline hover:text-bvp-gold transition-colors"
+              >
+                info@blackveteransproject.org
+              </a>
+              <p className="text-sm text-gray-400 mt-3">
+                or send a message via the form above ↑
+              </p>
+            </div>
+
+            {/* Divider */}
+            <div className="border-t border-white/20 my-8" aria-hidden="true" />
+
+            {/* Follow Section */}
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-4">
+                Follow
+              </p>
+              <div className="space-y-3">
+                <SocialLink
+                  platform="Instagram"
+                  handle="@blackvetsproject"
+                  href="https://instagram.com/blackvetsproject"
+                />
+                <SocialLink
+                  platform="Twitter / X"
+                  handle="@blackvetsproject"
+                  href="https://twitter.com/blackvetsproject"
+                />
+                <SocialLink
+                  platform="LinkedIn"
+                  handle="Black Veterans Project"
+                  href="https://linkedin.com/company/blackveteransproject"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>

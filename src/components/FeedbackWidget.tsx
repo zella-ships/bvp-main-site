@@ -321,9 +321,11 @@ function FeedbackWidgetInner() {
             data-feedback-widget
           >
             <div className="absolute inset-0 bg-black/10" />
-            <div className="fixed top-4 left-1/2 -translate-x-1/2 bg-black text-white px-6 py-3 rounded-full shadow-xl pointer-events-auto">
-              <span className="mr-3">👁️ Click anywhere on the page to leave feedback</span>
-              <button onClick={() => setFeedbackMode(false)} className="text-white/70 hover:text-white underline">Cancel</button>
+            <div className="fixed top-4 left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 bg-black text-white px-4 sm:px-6 py-3 rounded-2xl sm:rounded-full shadow-xl pointer-events-auto text-sm sm:text-base">
+              <span className="mr-2 sm:mr-3">👁️</span>
+              <span className="hidden sm:inline">Click anywhere on the page to leave feedback</span>
+              <span className="sm:hidden">Tap anywhere to leave feedback</span>
+              <button onClick={() => setFeedbackMode(false)} className="ml-2 sm:ml-3 text-white/70 hover:text-white underline">Cancel</button>
             </div>
           </motion.div>
         )}
@@ -336,10 +338,12 @@ function FeedbackWidgetInner() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="fixed z-[9999] bg-white rounded-xl shadow-2xl p-5 w-80"
+            className="fixed z-[9999] bg-white rounded-xl shadow-2xl p-4 sm:p-5 w-[calc(100%-2rem)] sm:w-80 max-w-80 left-4 sm:left-auto bottom-4 sm:bottom-auto"
             style={{
-              left: Math.min(clickPosition.x + 30, window.innerWidth - 340),
-              top: Math.min(clickPosition.y - 20, window.innerHeight - 300),
+              ...(typeof window !== 'undefined' && window.innerWidth >= 640 ? {
+                left: Math.min(clickPosition.x + 30, window.innerWidth - 340),
+                top: Math.min(clickPosition.y - 20, window.innerHeight - 300),
+              } : {}),
             }}
             data-feedback-widget
           >

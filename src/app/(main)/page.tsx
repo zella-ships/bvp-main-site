@@ -5,7 +5,7 @@ import { Hero } from '@/components/sections/Hero';
 import PillarsSection from '@/components/sections/PillarsSection';
 import { NewsletterSection } from '@/components/sections/NewsletterSection';
 import { NewsletterBanner } from '@/components/sections/NewsletterBanner';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 /**
  * HOMEPAGE SPECIFICATIONS
@@ -23,6 +23,8 @@ import { motion, AnimatePresence } from 'framer-motion';
  */
 
 export default function Home() {
+  const prefersReducedMotion = useReducedMotion();
+
   const [substackModal, setSubstackModal] = useState<{ isOpen: boolean; url: string; title: string }>({
     isOpen: false,
     url: '',
@@ -312,26 +314,28 @@ export default function Home() {
       <AnimatePresence>
         {substackModal.isOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
+            initial={prefersReducedMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0 }}
+            transition={prefersReducedMotion ? { duration: 0 } : undefined}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4"
             onClick={() => setSubstackModal({ ...substackModal, isOpen: false })}
           >
             {/* Backdrop */}
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={prefersReducedMotion ? false : { opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={prefersReducedMotion ? { duration: 0 } : undefined}
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             />
 
             {/* Modal */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              exit={prefersReducedMotion ? { opacity: 0 } : { opacity: 0, scale: 0.9, y: 20 }}
+              transition={prefersReducedMotion ? { duration: 0 } : { type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
               className="relative bg-black border-4 border-[#FDC500] p-8 md:p-12 max-w-lg w-full text-center"
             >
@@ -347,9 +351,9 @@ export default function Home() {
 
               {/* Substack Icon */}
               <motion.div
-                initial={{ scale: 0 }}
+                initial={prefersReducedMotion ? false : { scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ delay: 0.1, type: "spring", damping: 15 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.1, type: "spring", damping: 15 }}
                 className="w-20 h-20 mx-auto mb-6 bg-[#FDC500] rounded-full flex items-center justify-center"
               >
                 <svg className="w-10 h-10 text-black" viewBox="0 0 24 24" fill="currentColor">
@@ -359,9 +363,9 @@ export default function Home() {
 
               {/* Content */}
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.15 }}
               >
                 <p className="text-[#FDC500] text-xs font-bold uppercase tracking-widest mb-3">
                   Leaving BVP
@@ -376,9 +380,9 @@ export default function Home() {
 
               {/* Buttons */}
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
+                transition={prefersReducedMotion ? { duration: 0 } : { delay: 0.2 }}
                 className="flex flex-col sm:flex-row gap-3 justify-center"
               >
                 <a

@@ -294,7 +294,7 @@ export const pagesSEO: PageSEO[] = [
   {
     path: "/accessibility",
     title: "Accessibility | Black Veterans Project",
-    description: "Learn about the Black Veterans Project's commitment to digital accessibility. We strive to meet WCAG 2.1 Level AA standards.",
+    description: "Learn about the Black Veterans Project's commitment to digital accessibility. We strive to meet WCAG 2.2 Level AA standards.",
     openGraph: {
       title: "Accessibility Statement | Black Veterans Project",
       description: "Our commitment to digital accessibility for people with disabilities.",

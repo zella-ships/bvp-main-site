@@ -431,13 +431,13 @@ export function Header() {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white/50 backdrop-blur-md z-50 lg:hidden border-l border-white/20"
+              className="fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white/50 backdrop-blur-md z-50 lg:hidden border-l border-white/20 flex flex-col overflow-hidden"
               role="dialog"
               aria-modal="true"
               aria-label="Navigation menu"
             >
               {/* Close Button — Animated X with spin on hover */}
-              <div className="flex justify-end p-4">
+              <div className="flex justify-end px-4 pt-3 pb-2">
                 <motion.button
                   onClick={closeMobileMenu}
                   className="relative w-11 h-11 flex items-center justify-center text-black active:text-[#FDC500] focus-visible:ring-2 focus-visible:ring-[#FDC500] focus-visible:ring-offset-2 rounded-full"
@@ -461,7 +461,11 @@ export function Header() {
 
               {/* Mobile Nav Links — Staggered entrance */}
               <motion.nav
-                className="px-6"
+                className="px-6 flex-1 overflow-y-auto min-h-0"
+                style={{
+                  paddingBottom: 'max(2rem, env(safe-area-inset-bottom))',
+                  WebkitOverflowScrolling: 'touch'
+                }}
                 variants={mobileNavContainerVariants}
                 initial="hidden"
                 animate="visible"
@@ -476,21 +480,21 @@ export function Header() {
                   >
                     <Link
                       href={item.href}
-                      className="block py-2.5 text-lg font-bold text-black hover:text-[#FDC500] active:text-[#FDC500] transition-colors min-h-[44px] flex items-center"
+                      className="block py-3 text-[17px] font-bold text-black hover:text-[#FDC500] active:text-[#FDC500] transition-colors"
                       onClick={closeMobileMenu}
                       aria-current={pathname === item.href ? "page" : undefined}
                     >
                       {item.name}
                     </Link>
 
-                    {/* Mobile Dropdown Children */}
+                    {/* Mobile Dropdown Children - Apple HIG: 17px minimum */}
                     {item.children && (
-                      <div className="pb-2 pl-4 space-y-0" role="list" aria-label={`${item.name} pages`}>
+                      <div className="pb-3 pl-4 -mt-1 space-y-0" role="list" aria-label={`${item.name} pages`}>
                         {item.children.map((child) => (
                           <Link
                             key={child.name}
                             href={child.href}
-                            className="block py-1.5 text-sm text-black/60 hover:text-[#FDC500] active:text-[#FDC500] transition-colors min-h-[44px] flex items-center"
+                            className="block py-2 text-[17px] text-black/60 hover:text-black hover:font-semibold active:text-black active:font-semibold transition-all"
                             onClick={closeMobileMenu}
                             role="listitem"
                           >

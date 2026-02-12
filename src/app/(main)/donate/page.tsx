@@ -535,6 +535,7 @@ export default function DonatePage() {
                           }))
                         }
                         required
+                        autoComplete="given-name"
                         className="w-full border border-gray-300 p-3 text-sm transition-colors focus:border-black focus:outline-none"
                       />
                     </div>
@@ -557,6 +558,7 @@ export default function DonatePage() {
                           }))
                         }
                         required
+                        autoComplete="family-name"
                         className="w-full border border-gray-300 p-3 text-sm transition-colors focus:border-black focus:outline-none"
                       />
                     </div>
@@ -582,6 +584,7 @@ export default function DonatePage() {
                         }))
                       }
                       required
+                      autoComplete="email"
                       className="w-full border border-gray-300 p-3 text-sm transition-colors focus:border-black focus:outline-none"
                     />
                   </div>

@@ -81,9 +81,15 @@ export function CookieConsent() {
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    // DEV MODE: Always show on refresh for testing
+    // Check if user has already made a choice
+    const existingConsent = localStorage.getItem(COOKIE_CONSENT_KEY);
+    if (existingConsent) {
+      // User has already accepted/declined - don't show again
+      return;
+    }
+
+    // Show consent banner after 1 second delay for new visitors
     const timer = setTimeout(() => {
-      // Store the currently focused element to return focus later
       previousFocusRef.current = document.activeElement as HTMLElement;
       setIsVisible(true);
     }, 1000);

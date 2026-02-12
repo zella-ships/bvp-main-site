@@ -1,7 +1,7 @@
 "use client";
 
-import { forwardRef, HTMLAttributes, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { forwardRef, HTMLAttributes, useState, useId } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 // ============================================
@@ -59,15 +59,23 @@ interface AccordionItemProps {
 }
 
 function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
+  const prefersReducedMotion = useReducedMotion();
+  const uniqueId = useId();
+  const buttonId = `accordion-button-${uniqueId}`;
+  const panelId = `accordion-panel-${uniqueId}`;
+
   return (
     <div className="border-4 border-black bg-white">
       <button
+        id={buttonId}
         onClick={onToggle}
         className={cn(
           "w-full px-6 py-5 md:px-8 md:py-6 text-left flex justify-between items-center gap-4",
-          "hover:bg-gray-50 transition-colors duration-200"
+          "hover:bg-gray-50 transition-colors duration-200",
+          "focus-visible:ring-2 focus-visible:ring-[#FDC500] focus-visible:ring-offset-2"
         )}
         aria-expanded={isOpen}
+        aria-controls={panelId}
       >
         <span className="text-lg md:text-xl font-bold pr-4">{item.question}</span>
         <span
@@ -75,6 +83,7 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
             "text-2xl font-bold flex-shrink-0 transition-transform duration-300",
             isOpen && "rotate-45"
           )}
+          aria-hidden="true"
         >
           +
         </span>
@@ -83,10 +92,13 @@ function AccordionItem({ item, isOpen, onToggle }: AccordionItemProps) {
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
+            id={panelId}
+            role="region"
+            aria-labelledby={buttonId}
+            initial={prefersReducedMotion ? { opacity: 1 } : { height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            exit={prefersReducedMotion ? { opacity: 0 } : { height: 0, opacity: 0 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }}
             className="overflow-hidden"
           >
             <div className="px-6 pb-6 md:px-8 md:pb-8 border-t-2 border-black">

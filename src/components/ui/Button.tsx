@@ -30,7 +30,7 @@ export type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 // Base styles - Combo B Gold Pill style
 const baseStyles =
-  "inline-flex items-center justify-center font-bold tracking-wide transition-all duration-300 border-2 rounded-full active:scale-95";
+  "inline-flex items-center justify-center font-bold tracking-wide transition-all duration-300 border-2 rounded-full active:scale-95 whitespace-nowrap";
 
 // Variant styles - Gold border stays on hover
 const variants = {

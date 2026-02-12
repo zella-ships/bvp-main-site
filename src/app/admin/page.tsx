@@ -2,6 +2,20 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { pagesSEO, seoSummary, type PageSEO } from "@/config/seo";
+import { launchChecklist, checklistSummary, type ChecklistItem } from "@/config/launch-checklist";
+import { accessibilityChecklist, a11ySummary, type A11yItem } from "@/config/accessibility";
+import {
+  integrations,
+  formIntegrations,
+  analyticsEvents,
+  dataFlows,
+  utmStrategy,
+  integrationSummary,
+  type Integration,
+  type FormIntegration,
+  type AnalyticsEvent,
+  type DataFlowStep,
+} from "@/config/integrations";
 
 // ─── Mock Data ───────────────────────────────────────────────────────────────
 
@@ -344,6 +358,430 @@ function SEOOverview() {
   );
 }
 
+// ─── Launch Checklist Component ───────────────────────────────────────────────
+
+const categoryLabels: Record<string, string> = {
+  seo: 'SEO',
+  security: 'Security',
+  accessibility: 'Accessibility',
+  integrations: 'Integrations',
+  assets: 'Assets',
+};
+
+const categoryColors: Record<string, string> = {
+  seo: '#3B82F6',
+  security: '#10B981',
+  accessibility: '#8B5CF6',
+  integrations: '#F59E0B',
+  assets: '#EC4899',
+};
+
+function ChecklistItemRow({ item }: { item: ChecklistItem }) {
+  const statusIcon = item.status === 'done' ? Icons.check : item.status === 'in-progress' ? '⟳' : '○';
+  const statusClass = item.status === 'done' ? 'done' : item.status === 'in-progress' ? 'in-progress' : 'pending';
+
+  return (
+    <div className={`checklist-item ${statusClass}`}>
+      <span className={`checklist-status ${statusClass}`}>{statusIcon}</span>
+      <span className="checklist-label">{item.label}</span>
+      <span className="checklist-desc">{item.description}</span>
+      <span className="checklist-category" style={{ background: categoryColors[item.category] }}>
+        {categoryLabels[item.category]}
+      </span>
+    </div>
+  );
+}
+
+function LaunchChecklist() {
+  const progressPercent = Math.round((checklistSummary.done / checklistSummary.total) * 100);
+  const categories = ['seo', 'security', 'accessibility', 'assets', 'integrations'] as const;
+
+  return (
+    <div>
+      {/* Progress Overview */}
+      <div className="checklist-progress">
+        <div className="checklist-progress-header">
+          <span className="checklist-progress-text">
+            <strong>{checklistSummary.done}</strong> of <strong>{checklistSummary.total}</strong> items complete
+          </span>
+          <span className="checklist-progress-pct">{progressPercent}%</span>
+        </div>
+        <div className="checklist-progress-bar">
+          <div className="checklist-progress-fill" style={{ width: `${progressPercent}%` }} />
+        </div>
+      </div>
+
+      {/* Category Breakdown */}
+      <div className="checklist-categories">
+        {categories.map(cat => {
+          const stats = checklistSummary.byCategory[cat];
+          return (
+            <div key={cat} className="checklist-category-stat">
+              <span className="checklist-cat-dot" style={{ background: categoryColors[cat] }} />
+              <span className="checklist-cat-label">{categoryLabels[cat]}</span>
+              <span className="checklist-cat-count">{stats.done}/{stats.total}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Checklist Items */}
+      <div className="checklist-items">
+        {launchChecklist.map(item => (
+          <ChecklistItemRow key={item.id} item={item} />
+        ))}
+      </div>
+
+      <div className="seo-note">
+        <strong>Tip:</strong> Update <code>src/config/launch-checklist.ts</code> as you complete items.
+      </div>
+    </div>
+  );
+}
+
+// ─── Accessibility Overview Component ─────────────────────────────────────────
+
+const wcagCategoryLabels: Record<string, string> = {
+  perceivable: 'Perceivable',
+  operable: 'Operable',
+  understandable: 'Understandable',
+  robust: 'Robust',
+};
+
+function A11yItemRow({ item }: { item: A11yItem }) {
+  const statusIcon = item.status === 'compliant' ? Icons.check :
+                     item.status === 'not-applicable' ? '–' :
+                     item.status === 'partial' ? '◐' : Icons.x;
+  const statusClass = item.status === 'compliant' ? 'compliant' :
+                      item.status === 'not-applicable' ? 'na' :
+                      item.status === 'partial' ? 'partial' : 'non-compliant';
+
+  return (
+    <div className={`a11y-item ${statusClass}`}>
+      <span className={`a11y-status ${statusClass}`}>{statusIcon}</span>
+      <span className="a11y-criteria">{item.wcagCriteria}</span>
+      <span className="a11y-label">{item.label}</span>
+      <span className="a11y-desc">{item.description}</span>
+      {item.notes && <span className="a11y-notes">{item.notes}</span>}
+    </div>
+  );
+}
+
+function AccessibilityOverview() {
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+
+  return (
+    <div>
+      {/* Compliance Score */}
+      <div className="a11y-score-section">
+        <div className="a11y-score-ring">
+          <svg viewBox="0 0 36 36" className="a11y-score-svg">
+            <path
+              className="a11y-score-bg"
+              d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+            <path
+              className="a11y-score-fill"
+              strokeDasharray={`${a11ySummary.complianceRate}, 100`}
+              d="M18 2.0845
+                a 15.9155 15.9155 0 0 1 0 31.831
+                a 15.9155 15.9155 0 0 1 0 -31.831"
+            />
+          </svg>
+          <span className="a11y-score-value">{a11ySummary.complianceRate}%</span>
+        </div>
+        <div className="a11y-score-details">
+          <div className="a11y-score-title">WCAG 2.2 AA Compliance</div>
+          <div className="a11y-score-breakdown">
+            <span className="a11y-stat compliant">{a11ySummary.compliant} Compliant</span>
+            <span className="a11y-stat partial">{a11ySummary.partial} Partial</span>
+            <span className="a11y-stat non-compliant">{a11ySummary.nonCompliant} Non-compliant</span>
+            <span className="a11y-stat na">{a11ySummary.notApplicable} N/A</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Category Sections */}
+      {(['perceivable', 'operable', 'understandable', 'robust'] as const).map(category => {
+        const items = accessibilityChecklist.filter(i => i.category === category);
+        const stats = a11ySummary.byCategory[category];
+        const isExpanded = expandedCategory === category;
+
+        return (
+          <div key={category} className="a11y-category">
+            <div
+              className="a11y-category-header"
+              onClick={() => setExpandedCategory(isExpanded ? null : category)}
+            >
+              <span className="a11y-category-name">{wcagCategoryLabels[category]}</span>
+              <span className="a11y-category-stats">{stats.compliant}/{stats.total} compliant</span>
+              <span className="a11y-expand-btn">{isExpanded ? Icons.chevronUp : Icons.chevronDown}</span>
+            </div>
+            {isExpanded && (
+              <div className="a11y-category-items">
+                {items.map(item => (
+                  <A11yItemRow key={item.id} item={item} />
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+
+      <div className="seo-note">
+        <strong>Tip:</strong> This data powers your <code>/accessibility</code> page. Update <code>src/config/accessibility.ts</code> to keep it current.
+      </div>
+    </div>
+  );
+}
+
+// ─── Integration Spec Component ───────────────────────────────────────────────
+
+const statusColors: Record<string, string> = {
+  connected: '#10B981',
+  ready: '#3B82F6',
+  planned: '#F59E0B',
+  'not-needed': '#6B7280',
+};
+
+const statusLabels: Record<string, string> = {
+  connected: 'Connected',
+  ready: 'Ready',
+  planned: 'Planned',
+  'not-needed': 'Not Needed',
+};
+
+function IntegrationRow({ integration }: { integration: Integration }) {
+  return (
+    <div className="integration-row">
+      <span className="integration-status" style={{ background: statusColors[integration.status] }}>
+        {statusLabels[integration.status]}
+      </span>
+      <span className="integration-name">{integration.name}</span>
+      <span className="integration-desc">{integration.description}</span>
+      {integration.notes && <span className="integration-notes">{integration.notes}</span>}
+    </div>
+  );
+}
+
+function FormIntegrationRow({ form }: { form: FormIntegration }) {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className="form-integration-container">
+      <div className="form-integration-row" onClick={() => setExpanded(!expanded)}>
+        <span className="form-status" style={{ background: statusColors[form.status] }}>
+          {statusLabels[form.status]}
+        </span>
+        <span className="form-name">{form.name}</span>
+        <span className="form-path">{form.path}</span>
+        <span className="form-dest">→ {form.destination}</span>
+        <span className="form-expand-btn">{expanded ? Icons.chevronUp : Icons.chevronDown}</span>
+      </div>
+      {expanded && (
+        <div className="form-integration-details">
+          <div className="form-detail-section">
+            <div className="form-detail-label">Fields Captured</div>
+            <div className="form-detail-tags">
+              {form.fields.map(f => <span key={f} className="form-field-tag">{f}</span>)}
+            </div>
+          </div>
+          <div className="form-detail-section">
+            <div className="form-detail-label">Tags Generated</div>
+            <div className="form-detail-tags">
+              {form.tagsGenerated.map(t => <span key={t} className="form-tag-tag">{t}</span>)}
+            </div>
+          </div>
+          {form.notes && (
+            <div className="form-detail-notes">{form.notes}</div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DataFlowDiagram() {
+  return (
+    <div className="dataflow-diagram">
+      <div className="dataflow-title">Data Flow Architecture</div>
+      <div className="dataflow-visual">
+        <div className="dataflow-node website">
+          <span className="dataflow-node-label">Website</span>
+          <span className="dataflow-node-sub">Forms + Events</span>
+        </div>
+        <div className="dataflow-arrows">
+          <div className="dataflow-arrow">
+            <span className="dataflow-arrow-line">→</span>
+            <span className="dataflow-arrow-label">Form Data + Tags</span>
+          </div>
+          <div className="dataflow-arrow">
+            <span className="dataflow-arrow-line">→</span>
+            <span className="dataflow-arrow-label">Events + Conversions</span>
+          </div>
+          <div className="dataflow-arrow">
+            <span className="dataflow-arrow-line">→</span>
+            <span className="dataflow-arrow-label">Campaign + Amount</span>
+          </div>
+        </div>
+        <div className="dataflow-destinations">
+          <div className="dataflow-node crm">
+            <span className="dataflow-node-label">Action Network</span>
+            <span className="dataflow-node-status ready">Ready</span>
+          </div>
+          <div className="dataflow-node analytics">
+            <span className="dataflow-node-label">Google Analytics</span>
+            <span className="dataflow-node-status ready">Ready</span>
+          </div>
+          <div className="dataflow-node payments">
+            <span className="dataflow-node-label">Donately</span>
+            <span className="dataflow-node-status planned">Planned</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function IntegrationSpec() {
+  const [activeTab, setActiveTab] = useState<'overview' | 'forms' | 'events' | 'utm'>('overview');
+
+  return (
+    <div>
+      {/* Summary Stats */}
+      <div className="integration-summary">
+        <div className="integration-stat">
+          <span className="integration-stat-value">{integrationSummary.connected}</span>
+          <span className="integration-stat-label">Connected</span>
+        </div>
+        <div className="integration-stat">
+          <span className="integration-stat-value integration-stat-ready">{integrationSummary.ready}</span>
+          <span className="integration-stat-label">Ready</span>
+        </div>
+        <div className="integration-stat">
+          <span className="integration-stat-value integration-stat-planned">{integrationSummary.planned}</span>
+          <span className="integration-stat-label">Planned</span>
+        </div>
+        <div className="integration-stat">
+          <span className="integration-stat-value">{integrationSummary.formsReady}/{integrationSummary.formsTotal}</span>
+          <span className="integration-stat-label">Forms Ready</span>
+        </div>
+        <div className="integration-stat">
+          <span className="integration-stat-value">{integrationSummary.conversions}</span>
+          <span className="integration-stat-label">Conversions</span>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="integration-tabs">
+        <button
+          className={`integration-tab ${activeTab === 'overview' ? 'active' : ''}`}
+          onClick={() => setActiveTab('overview')}
+        >
+          Overview
+        </button>
+        <button
+          className={`integration-tab ${activeTab === 'forms' ? 'active' : ''}`}
+          onClick={() => setActiveTab('forms')}
+        >
+          Forms
+        </button>
+        <button
+          className={`integration-tab ${activeTab === 'events' ? 'active' : ''}`}
+          onClick={() => setActiveTab('events')}
+        >
+          Events
+        </button>
+        <button
+          className={`integration-tab ${activeTab === 'utm' ? 'active' : ''}`}
+          onClick={() => setActiveTab('utm')}
+        >
+          UTM Strategy
+        </button>
+      </div>
+
+      {/* Tab Content */}
+      <div className="integration-tab-content">
+        {activeTab === 'overview' && (
+          <div>
+            <DataFlowDiagram />
+            <div className="integration-list-title">Integration Status</div>
+            {integrations.map(i => <IntegrationRow key={i.id} integration={i} />)}
+          </div>
+        )}
+
+        {activeTab === 'forms' && (
+          <div>
+            <div className="integration-list-title">Form Integrations</div>
+            <p className="integration-list-desc">
+              All forms are structured for Action Network API. Click to see fields and tags.
+            </p>
+            {formIntegrations.map(f => <FormIntegrationRow key={f.id} form={f} />)}
+          </div>
+        )}
+
+        {activeTab === 'events' && (
+          <div>
+            <div className="integration-list-title">GA4 Events</div>
+            <p className="integration-list-desc">
+              {analyticsEvents.length} events configured, {integrationSummary.conversions} marked as conversions.
+            </p>
+            <div className="events-table">
+              <div className="events-header">
+                <span className="event-col-name">Event</span>
+                <span className="event-col-trigger">Trigger</span>
+                <span className="event-col-conv">Conv?</span>
+              </div>
+              {analyticsEvents.map(e => (
+                <div key={e.name} className="events-row">
+                  <span className="event-col-name">
+                    <code>{e.name}</code>
+                    <span className="event-desc">{e.description}</span>
+                  </span>
+                  <span className="event-col-trigger">{e.trigger}</span>
+                  <span className="event-col-conv">
+                    {e.isConversion ? <span className="event-conv-yes">Yes</span> : '–'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'utm' && (
+          <div>
+            <div className="integration-list-title">UTM Parameter Strategy</div>
+            <p className="integration-list-desc">{utmStrategy.description}</p>
+            <div className="utm-params">
+              {utmStrategy.parameters.map(p => (
+                <div key={p.name} className="utm-param">
+                  <div className="utm-param-name"><code>{p.name}</code></div>
+                  <div className="utm-param-desc">{p.description}</div>
+                  <div className="utm-param-examples">
+                    {p.examples.map(ex => <span key={ex} className="utm-example">{ex}</span>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="utm-examples-title">Example URLs</div>
+            <div className="utm-example-urls">
+              {utmStrategy.exampleUrls.map(url => (
+                <code key={url} className="utm-example-url">{url}</code>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="seo-note">
+        <strong>For MissionWired:</strong> This spec documents our data architecture. Forms are ready for Action Network API integration. Update <code>src/config/integrations.ts</code> as connections are made.
+      </div>
+    </div>
+  );
+}
+
 function Header({ page, onNavigate }: { page: string; onNavigate: (p: string) => void }) {
   return (
     <header className="hub-header">
@@ -385,7 +823,7 @@ function DashboardPage() {
   return (
     <div className="hub-main">
       <div className="hub-greeting">
-        <h1>{getGreeting()}, Richard.</h1>
+        <h1>{getGreeting()}, Cyrus.</h1>
         <div className="hub-greeting-right">
           <span className="hub-updated">Last updated: {lastUpdated}</span>
           <button className={`hub-refresh-btn ${spinning ? "spinning" : ""}`} onClick={refresh}>
@@ -423,9 +861,24 @@ function DashboardPage() {
         </div>
       </SectionContainer>
 
-      {/* SEO Overview - NEW SECTION */}
+      {/* SEO Overview */}
       <SectionContainer label="SEO & Meta Tags">
         <SEOOverview />
+      </SectionContainer>
+
+      {/* Launch Checklist */}
+      <SectionContainer label="Launch Checklist">
+        <LaunchChecklist />
+      </SectionContainer>
+
+      {/* Accessibility Overview */}
+      <SectionContainer label="Accessibility (WCAG 2.2 AA)">
+        <AccessibilityOverview />
+      </SectionContainer>
+
+      {/* Integration Spec */}
+      <SectionContainer label="Integration Spec (for MissionWired)">
+        <IntegrationSpec />
       </SectionContainer>
 
       {/* Deployments */}
@@ -481,10 +934,10 @@ function SettingsPage({ onNavigate }: { onNavigate: (p: string) => void }) {
 
       <SectionContainer label="Account">
         <div className="hub-account-info">
-          <div className="hub-avatar">RB</div>
+          <div className="hub-avatar">C</div>
           <div>
-            <div className="hub-account-name">Richard Brookshire</div>
-            <div className="hub-account-email">richard@blackveteransproject.org</div>
+            <div className="hub-account-name">Cyrus</div>
+            <div className="hub-account-email">cyrus@blackveteransproject.org</div>
           </div>
         </div>
         <a className="hub-manage-link" href="#" onClick={e => e.preventDefault()}>

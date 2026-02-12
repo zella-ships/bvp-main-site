@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 
@@ -57,13 +57,19 @@ export function Hero({
   showDebugSpacing = false,
 }: HeroProps) {
   const containerRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
-  
-  // Parallax effect on background
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
+
+  // Parallax effect on background (disabled for reduced motion)
+  const backgroundY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? ['0%', '0%'] : ['0%', '30%']
+  );
 
   // Track viewport for debug
   const [viewport, setViewport] = useState({ width: 0 });
@@ -165,9 +171,9 @@ export function Hero({
         {/* Main Content - Full width */}
         <motion.div
           className="w-full"
-          initial={{ opacity: 0, y: 30 }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Headline - Full width, 3 lines */}
           <h1
@@ -184,15 +190,15 @@ export function Hero({
           </h1>
 
           {/* CTA Buttons */}
-          <motion.div 
+          <motion.div
             className="
-              flex flex-col sm:flex-row 
-              gap-4 
+              flex flex-col sm:flex-row
+              gap-4
               mt-8 md:mt-10 lg:mt-12
             "
-            initial={{ opacity: 0, y: 20 }}
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <Button
               variant="primary"
@@ -233,35 +239,37 @@ export function Hero({
       </div>
 
       {/* Scroll Indicator — fades out on scroll, stays gone */}
-      <motion.div
-        className="
-          absolute
-          bottom-[calc(2rem+65px)] md:bottom-[calc(3rem+65px)] lg:bottom-[calc(4rem+65px)]
-          right-[76px] md:right-[82px]
-          z-10
-          flex flex-col items-center gap-2
-          pointer-events-none
-        "
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.6 }}
-        style={{ opacity: useTransform(scrollYProgress, [0, 0.08], [1, 0]) }}
-      >
-        <span className="text-white/60 text-xs font-mono uppercase tracking-widest">
-          Scroll
-        </span>
+      {!prefersReducedMotion && (
         <motion.div
-          className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2"
-          animate={{ y: [0, 5, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          className="
+            absolute
+            bottom-[calc(2rem+65px)] md:bottom-[calc(3rem+65px)] lg:bottom-[calc(4rem+65px)]
+            right-[76px] md:right-[82px]
+            z-10
+            flex flex-col items-center gap-2
+            pointer-events-none
+          "
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          style={{ opacity: useTransform(scrollYProgress, [0, 0.08], [1, 0]) }}
         >
+          <span className="text-white/60 text-xs font-mono uppercase tracking-widest">
+            Scroll
+          </span>
           <motion.div
-            className="w-1.5 h-1.5 bg-white rounded-full"
-            animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
+            className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2"
+            animate={{ y: [0, 5, 0] }}
             transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-          />
+          >
+            <motion.div
+              className="w-1.5 h-1.5 bg-white rounded-full"
+              animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            />
+          </motion.div>
         </motion.div>
-      </motion.div>
+      )}
 
       {/* Debug: Container and breakpoint info */}
       {showDebugSpacing && (

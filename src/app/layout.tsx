@@ -3,6 +3,7 @@ import "./globals.css";
 import { DebugOverlay } from "@/components/ui/DebugOverlay";
 import { CookieConsent } from "@/components/ui/CookieConsent";
 import FeedbackWidget from "@/components/FeedbackWidget";
+import { AnalyticsProvider } from "@/components/providers/AnalyticsProvider";
 
 export const metadata: Metadata = {
   title: "Black Veterans Project — Reparative Justice for Black Veterans",
@@ -30,7 +31,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased bg-white text-black">
-        {children}
+        <AnalyticsProvider>
+          {children}
+        </AnalyticsProvider>
         <CookieConsent />
         <DebugOverlay />
         <FeedbackWidget />
