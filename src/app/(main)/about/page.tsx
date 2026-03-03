@@ -233,14 +233,14 @@ const founders = [
   },
 ];
 
-// Partners data
+// Partners data - scale adjusts individual logo sizes for visual balance
 const partners = [
-  { name: 'Robert Wood Johnson Foundation', logo: '/images/partners/rwjf.png' },
-  { name: 'Levi Strauss Foundation', logo: '/images/partners/lv.png' },
-  { name: 'National Veterans Council for Legal Redress', logo: '/images/partners/nvclr.png' },
-  { name: 'Massachusetts Coalition', logo: '/images/partners/mssct.png' },
-  { name: 'Legal Services Corporation', logo: '/images/partners/lsc.png' },
-  { name: 'Civil Liberties Coalition', logo: '/images/partners/cvlc.png' },
+  { name: 'Robert Wood Johnson Foundation', logo: '/images/partners/rwjf.png', scale: 1 },
+  { name: 'Liberation Ventures', logo: '/images/partners/lv.png', scale: 1.6 },
+  { name: 'National Veterans Council for Legal Redress', logo: '/images/partners/nvclr.png', scale: 1 },
+  { name: 'May & Stanley Smith Charitable Trust', logo: '/images/partners/mssct.png', scale: 1 },
+  { name: 'Legal Services Corporation', logo: '/images/partners/lsc.png', scale: 1.5 },
+  { name: 'Connecticut Veterans Legal Center', logo: '/images/partners/cvlc.png', scale: 1 },
 ];
 
 // Timeline Component with mobile scroll tracking
@@ -532,16 +532,20 @@ export default function AboutPage() {
 
             <div
               className="grid grid-cols-2 md:grid-cols-3 items-center justify-items-center"
-              style={{ gap: 'clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 4rem)' }}
+              style={{ gap: 'clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem)' }}
             >
               {partners.map((partner) => (
-                <div key={partner.name} className="flex items-center justify-center h-24 w-full">
+                <div key={partner.name} className="flex items-center justify-center h-28 w-full">
                   <Image
                     src={partner.logo}
                     alt={partner.name}
                     width={280}
                     height={120}
-                    className="w-auto max-h-[100px] max-w-[220px] object-contain brightness-[1.08] contrast-[1.1] mix-blend-multiply hover:brightness-100 hover:contrast-100 transition-all duration-300"
+                    className="w-auto object-contain brightness-[1.08] contrast-[1.1] mix-blend-multiply hover:brightness-100 hover:contrast-100 transition-all duration-300"
+                    style={{
+                      maxHeight: `${100 * (partner.scale || 1)}px`,
+                      maxWidth: `${220 * (partner.scale || 1)}px`
+                    }}
                   />
                 </div>
               ))}
