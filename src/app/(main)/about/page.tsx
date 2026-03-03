@@ -311,7 +311,7 @@ function TeamDrawer({
         )}
       </AnimatePresence>
 
-      {/* Drawer */}
+      {/* Drawer - Right side panel on desktop, bottom sheet on mobile */}
       <div
         ref={drawerRef}
         onTouchStart={handleSwipeStart}
@@ -319,9 +319,9 @@ function TeamDrawer({
         className={`
           fixed z-[100] bg-black flex flex-col overflow-hidden
           transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
-          md:top-0 md:right-0 md:bottom-0 md:w-[480px] md:max-w-[95vw]
-          inset-x-0 bottom-0 h-[88vh] rounded-t-[20px] md:rounded-none
-          shadow-[0_-4px_40px_rgba(0,0,0,0.4)] md:shadow-none
+          left-0 right-0 bottom-0 h-[88vh] rounded-t-[20px]
+          shadow-[0_-4px_40px_rgba(0,0,0,0.4)]
+          md:left-auto md:top-0 md:right-0 md:bottom-0 md:h-auto md:w-[480px] md:max-w-[95vw] md:rounded-none md:shadow-xl
           ${isOpen ? 'translate-y-0 md:translate-x-0' : 'translate-y-full md:translate-y-0 md:translate-x-full'}
         `}
         style={{
@@ -375,19 +375,16 @@ function TeamDrawer({
               </span>
             </div>
           )}
-          {/* Gold bar under photo */}
-          <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#FDC500]" />
+          {/* Gold accent line under photo */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-16 h-[1px] bg-[#FDC500]" />
         </div>
 
         {/* Header */}
         <div className="px-5 md:px-7 py-4 md:py-5 border-b border-[#1c1c1c] shrink-0">
-          <div className="font-display text-[11px] tracking-[0.16em] text-[#FDC500]/45 mb-1">
-            0{index + 1} / 0{totalCount}
-          </div>
-          <h2 className="font-display font-bold text-white text-[clamp(24px,5vw,36px)] uppercase tracking-wide leading-tight mb-2">
+          <h2 className="font-display font-bold text-white text-[clamp(24px,5vw,32px)] uppercase tracking-wide leading-tight mb-2">
             {member.name}
           </h2>
-          <p className="text-[10px] uppercase tracking-[0.15em] text-[#FDC500]">
+          <p className="text-[11px] uppercase tracking-[0.15em] text-[#FDC500]">
             {member.role}
           </p>
         </div>
@@ -400,7 +397,7 @@ function TeamDrawer({
         >
           <div className="space-y-4">
             {bioParagraphs.map((p, i) => (
-              <p key={i} className="text-[15px] md:text-[14px] leading-[1.85] text-gray-400 font-light">
+              <p key={i} className="text-[16px] leading-[1.75] text-gray-400">
                 {p}
               </p>
             ))}
@@ -502,14 +499,11 @@ function TeamSection() {
       <div className="max-w-[1400px] mx-auto">
         {/* Header */}
         <div className="mb-10 md:mb-12 px-2 md:px-4">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-gray-500 mb-3">
-            Black Veterans Project
-          </p>
           <h2
-            className="font-display font-bold uppercase text-black"
-            style={{ fontSize: 'clamp(2.5rem, 8vw, 4.5rem)' }}
+            className="font-display font-bold uppercase"
+            style={{ fontSize: 'clamp(1.75rem, 1rem + 3vw, 2.5rem)' }}
           >
-            Our <span className="text-[#FDC500]">Team</span>
+            Our Team
           </h2>
         </div>
 
@@ -854,13 +848,13 @@ export default function AboutPage() {
             style={{ gap: 'clamp(2rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem)' }}
           >
             {partners.map((partner) => (
-              <div key={partner.name} className="flex items-center justify-center h-28 w-full">
+              <div key={partner.name} className="flex items-center justify-center h-28 w-full group">
                 <Image
                   src={partner.logo}
                   alt={partner.name}
                   width={280}
                   height={120}
-                  className="w-auto object-contain brightness-[1.08] contrast-[1.1] mix-blend-multiply hover:brightness-100 hover:contrast-100 transition-all duration-300"
+                  className="w-auto object-contain opacity-60 grayscale group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300 ease-out"
                   style={{
                     maxHeight: `${100 * (partner.scale || 1)}px`,
                     maxWidth: `${220 * (partner.scale || 1)}px`

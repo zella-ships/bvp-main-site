@@ -48,7 +48,6 @@ const footerLinks = {
   aboutUs: [
     { name: "Mission & Vision", href: "/about#mission" },
     { name: "Our Team", href: "/about#founders" },
-    { name: "Board", href: "/about#board" },
     { name: "Partners", href: "/about#partners" },
   ],
   ourWork: [

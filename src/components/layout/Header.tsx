@@ -22,7 +22,6 @@ const navigation = [
     children: [
       { name: "Mission & Vision", href: "/about#mission" },
       { name: "Our Team", href: "/about#founders" },
-      { name: "Board", href: "/about#board" },
       { name: "Partners", href: "/about#partners" },
     ],
   },
