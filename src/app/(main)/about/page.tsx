@@ -531,17 +531,17 @@ export default function AboutPage() {
             </p>
 
             <div
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 items-center justify-items-center"
-              style={{ gap: 'clamp(2rem, 4vw, 3rem)' }}
+              className="grid grid-cols-2 md:grid-cols-3 items-center justify-items-center"
+              style={{ gap: 'clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 4rem)' }}
             >
               {partners.map((partner) => (
-                <div key={partner.name} className="flex items-center justify-center">
+                <div key={partner.name} className="flex items-center justify-center h-24 w-full">
                   <Image
                     src={partner.logo}
                     alt={partner.name}
-                    width={160}
-                    height={80}
-                    className="w-auto max-h-[60px] object-contain brightness-[1.08] contrast-[1.1] mix-blend-multiply hover:brightness-100 hover:contrast-100 transition-all duration-300"
+                    width={280}
+                    height={120}
+                    className="w-auto max-h-[100px] max-w-[220px] object-contain brightness-[1.08] contrast-[1.1] mix-blend-multiply hover:brightness-100 hover:contrast-100 transition-all duration-300"
                   />
                 </div>
               ))}
