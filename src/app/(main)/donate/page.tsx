@@ -256,8 +256,26 @@ export default function DonatePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <section className="min-h-screen" style={{ paddingTop: 'clamp(6rem, 10vw, 6rem)' }}>
-        <div style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 6rem)' }}>
+      {/* Hero Section */}
+      <section className="bg-white border-b border-gray-200">
+        <div style={{ padding: 'clamp(6rem, 10vw, 8rem) clamp(1rem, 4vw, 5.75rem) clamp(2rem, 5vw, 3rem)' }}>
+          <div className="max-w-[1400px] mx-auto">
+            <p className="text-sm uppercase tracking-widest text-gray-400 mb-4">
+              Support Our Mission
+            </p>
+            <h1
+              className="font-gunterz font-bold leading-tight"
+              style={{ fontSize: 'clamp(1.75rem, 1rem + 3.5vw, 3rem)' }}
+            >
+              Help Us Secure the Legacy for Black Veterans
+            </h1>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section>
+        <div style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 5.75rem)' }}>
           <div className="max-w-[1400px] mx-auto">
             <div
               className="grid"
@@ -267,13 +285,7 @@ export default function DonatePage() {
               }}
             >
               {/* Left Column: Copy */}
-              <div className="pt-4">
-                <h1
-                  className="font-bold leading-tight font-display"
-                  style={{ fontSize: 'clamp(1.5rem, 1rem + 2.5vw, 2.5rem)', marginBottom: 'clamp(1.5rem, 4vw, 2rem)' }}
-                >
-                  Help us secure the Legacy for Black Veterans
-                </h1>
+              <div>
                 <div className="space-y-6">
                   <p className="text-lg leading-relaxed text-gray-700">
                     Your donation helps Black Veterans Project's mission to

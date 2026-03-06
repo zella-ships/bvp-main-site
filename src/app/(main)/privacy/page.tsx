@@ -3,13 +3,13 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="bg-white border-b border-gray-200">
-        <div style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1.5rem, 5vw, 6rem) clamp(2rem, 5vw, 4rem)' }}>
+        <div style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1rem, 4vw, 5.75rem) clamp(2rem, 5vw, 4rem)' }}>
           <div className="max-w-[1400px] mx-auto">
             <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
               Legal
             </p>
             <h1
-              className="font-black leading-tight font-display"
+              className="font-black leading-tight font-gunterz"
               style={{ fontSize: 'clamp(1.75rem, 1rem + 3.5vw, 3rem)' }}
             >
               Privacy Policy
@@ -19,13 +19,13 @@ export default function PrivacyPage() {
       </section>
 
       {/* Content */}
-      <section style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 6rem)' }}>
+      <section style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 5.75rem)' }}>
         <article className="max-w-[800px] prose prose-lg prose-gray">
           <p className="text-sm text-gray-500 mb-8">
             Last updated: February 2026
           </p>
 
-          <h2 className="text-2xl font-bold mb-4 font-display">Introduction</h2>
+          <h2 className="text-2xl font-bold mb-4 font-gunterz">Introduction</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-8">
             Black Veterans Project ("BVP," "we," "us," or "our") is committed to
             protecting your privacy. This Privacy Policy explains how we
@@ -35,7 +35,7 @@ export default function PrivacyPage() {
             data.
           </p>
 
-          <h2 className="text-2xl font-bold mb-4 font-display">
+          <h2 className="text-2xl font-bold mb-4 font-gunterz">
             Information We Collect
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
@@ -61,7 +61,7 @@ export default function PrivacyPage() {
             </li>
           </ul>
 
-          <h2 className="text-2xl font-bold mb-4 font-display">
+          <h2 className="text-2xl font-bold mb-4 font-gunterz">
             How We Use Your Information
           </h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-4">
@@ -77,7 +77,7 @@ export default function PrivacyPage() {
             <li>Comply with legal obligations</li>
           </ul>
 
-          <h2 className="text-2xl font-bold mb-4 font-display">Data Security</h2>
+          <h2 className="text-2xl font-bold mb-4 font-gunterz">Data Security</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-8">
             We use administrative, technical, and physical security measures to
             protect your personal information. While we have taken reasonable
@@ -86,7 +86,7 @@ export default function PrivacyPage() {
             guarantee the security of any information transmitted to us.
           </p>
 
-          <h2 className="text-2xl font-bold mb-4 font-display">Your Rights</h2>
+          <h2 className="text-2xl font-bold mb-4 font-gunterz">Your Rights</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-8">
             Depending on your location, you may have certain rights regarding
             your personal information, including the right to access, correct,
@@ -94,7 +94,7 @@ export default function PrivacyPage() {
             using the information below.
           </p>
 
-          <h2 className="text-2xl font-bold mb-4 font-display">Contact Us</h2>
+          <h2 className="text-2xl font-bold mb-4 font-gunterz">Contact Us</h2>
           <p className="text-lg text-gray-700 leading-relaxed mb-8">
             If you have any questions about this Privacy Policy or our data
             practices, please contact us at{" "}

@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
 
 /**
  * DESIGN SYSTEM VISUAL REFERENCE
- * 
+ *
  * Shows all spacing, typography, colors with exact pixel values
  * Use this page to screenshot and annotate what needs adjustment
  */
@@ -18,7 +20,7 @@ export default function DesignSystemPage() {
       const width = window.innerWidth;
       const height = window.innerHeight;
       setViewport({ width, height });
-      
+
       if (width < 640) setBreakpoint('xs (mobile)');
       else if (width < 768) setBreakpoint('sm (large mobile)');
       else if (width < 1024) setBreakpoint('md (tablet)');
@@ -26,41 +28,90 @@ export default function DesignSystemPage() {
       else if (width < 1536) setBreakpoint('xl (desktop)');
       else setBreakpoint('2xl (large desktop)');
     };
-    
+
     updateViewport();
     window.addEventListener('resize', updateViewport);
     return () => window.removeEventListener('resize', updateViewport);
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Sticky Header with Live Viewport */}
-      <header className="sticky top-0 z-50 bg-black text-white">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="font-bold text-xl">BVP Design System</h1>
-            <p className="text-gray-400 text-sm">Visual Spacing Reference</p>
+    <>
+      {/* Hide donate side tab on design system page */}
+      <style>{`[aria-label="Donate to Black Veterans Project"][style*="writing-mode"] { display: none !important; }`}</style>
+
+      <div className="min-h-screen bg-white">
+        {/* Site Header */}
+        <Header />
+
+      {/* Hero Section with Intro */}
+      <section className="bg-gradient-to-b from-black via-black to-bvp-gold/10 pt-32 md:pt-40 pb-12 md:pb-16 px-6 md:px-12">
+        <div className="max-w-[1400px] mx-auto">
+          {/* Title Area */}
+          <div className="mb-8">
+            <p className="text-xs font-bold uppercase tracking-widest text-bvp-gold mb-3">Design System</p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 font-gunterz">
+              BVP Spec v2.0
+            </h1>
+            <p className="text-xl md:text-2xl leading-relaxed text-white/80 max-w-3xl">
+              The single source of truth for the Black Veterans Project digital experience.
+              This system defines our typography, spacing, colors, and components to ensure
+              consistency across all platforms and touchpoints.
+            </p>
           </div>
-          <div className="text-right">
+
+          {/* GitHub-style Metadata */}
+          <div className="flex flex-wrap gap-6 text-sm">
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-white/50">Last updated:</span>
+              <span className="font-mono font-bold text-white">Mar 6, 2026</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              <span className="text-white/50">Version:</span>
+              <span className="font-mono bg-bvp-gold px-2 py-0.5 rounded font-bold text-black">v2.0</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+              <span className="text-white/50">Commit:</span>
+              <a href="#" className="font-mono text-bvp-gold hover:underline">a3f7c2d</a>
+            </div>
+            <div className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span className="text-white/50">Maintainer:</span>
+              <span className="font-medium text-white">BVP Engineering</span>
+            </div>
+          </div>
+
+          {/* Live Viewport Indicator */}
+          <div className="mt-8 inline-flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-lg px-4 py-3 border border-white/20">
             <div className="text-bvp-gold font-mono text-lg font-bold">
               {viewport.width} × {viewport.height}
             </div>
-            <div className="text-sm text-gray-400">{breakpoint}</div>
+            <div className="text-sm text-white/60">{breakpoint}</div>
           </div>
         </div>
-      </header>
+      </section>
 
-      {/* Quick Nav */}
-      <nav className="sticky top-[72px] z-40 bg-gray-100 border-b-4 border-black">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-3 flex gap-6 overflow-x-auto">
-          <a href="#breakpoints" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap">Breakpoints</a>
-          <a href="#container" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap">Container</a>
-          <a href="#section-padding" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap">Section Padding</a>
-          <a href="#spacing-scale" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap">Spacing Scale</a>
-          <a href="#typography" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap">Typography</a>
-          <a href="#ios-hig" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap">iOS HIG Mobile</a>
-          <a href="#colors" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap">Colors</a>
-          <a href="#components" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap">Components</a>
+      {/* Quick Nav - Sticky below header */}
+      <nav className="sticky top-0 z-40 bg-white border-b-4 border-black shadow-sm">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-3 flex gap-4 md:gap-6 overflow-x-auto">
+          <a href="#breakpoints" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap transition-colors">Breakpoints</a>
+          <a href="#container" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap transition-colors">Container</a>
+          <a href="#section-padding" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap transition-colors">Section Padding</a>
+          <a href="#spacing-scale" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap transition-colors">Spacing Scale</a>
+          <a href="#typography" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap transition-colors">Typography</a>
+          <a href="#ios-hig" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap transition-colors">iOS HIG</a>
+          <a href="#colors" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap transition-colors">Colors</a>
+          <a href="#components" className="text-sm font-bold hover:text-bvp-gold whitespace-nowrap transition-colors">Components</a>
         </div>
       </nav>
 
@@ -68,7 +119,7 @@ export default function DesignSystemPage() {
         {/* ===================== BREAKPOINTS ===================== */}
         <section id="breakpoints" className="py-12 md:py-16 lg:py-24 px-6 md:px-12 border-b-4 border-black">
           <div className="max-w-[1400px] mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8">Breakpoints</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 font-gunterz">Breakpoints</h2>
             
             <div className="overflow-x-auto">
               <table className="w-full border-4 border-black">
@@ -133,7 +184,7 @@ export default function DesignSystemPage() {
         {/* ===================== CONTAINER ===================== */}
         <section id="container" className="py-12 md:py-16 lg:py-24 px-6 md:px-12 border-b-4 border-black bg-gray-50">
           <div className="max-w-[1400px] mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8">Container</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 font-gunterz">Container</h2>
             
             <div className="grid md:grid-cols-2 gap-8 mb-12">
               <div className="bg-white border-4 border-black p-6">
@@ -192,7 +243,7 @@ export default function DesignSystemPage() {
         {/* ===================== SECTION PADDING ===================== */}
         <section id="section-padding" className="py-12 md:py-16 lg:py-24 px-6 md:px-12 border-b-4 border-black">
           <div className="max-w-[1400px] mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Section Padding</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-gunterz">Section Padding</h2>
             <p className="text-gray-600 mb-8">Uses fluid <code className="bg-gray-100 px-2 py-1 rounded">clamp()</code> for smooth responsive scaling.</p>
 
             <div className="grid md:grid-cols-3 gap-8 mb-12">
@@ -253,7 +304,7 @@ export default function DesignSystemPage() {
         {/* ===================== SPACING SCALE ===================== */}
         <section id="spacing-scale" className="py-12 md:py-16 lg:py-24 px-6 md:px-12 border-b-4 border-black bg-gray-50">
           <div className="max-w-[1400px] mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Spacing Scale</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-gunterz">Spacing Scale</h2>
             <p className="text-gray-600 mb-8">Base unit: 4px. All spacing is multiples of 4.</p>
 
             <div className="space-y-4">
@@ -321,7 +372,7 @@ export default function DesignSystemPage() {
         {/* ===================== TYPOGRAPHY ===================== */}
         <section id="typography" className="py-12 md:py-16 lg:py-24 px-6 md:px-12 border-b-4 border-black">
           <div className="max-w-[1400px] mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8">Typography</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 font-gunterz">Typography</h2>
 
             {/* Font Families */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -523,7 +574,7 @@ export default function DesignSystemPage() {
         {/* ===================== iOS HIG MOBILE ===================== */}
         <section id="ios-hig" className="py-12 md:py-16 lg:py-24 px-6 md:px-12 border-b-4 border-black bg-bvp-gold/10">
           <div className="max-w-[1400px] mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">iOS HIG Mobile Guidelines</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-gunterz">iOS HIG Mobile Guidelines</h2>
             <p className="text-gray-600 mb-8">Apple Human Interface Guidelines for mobile accessibility</p>
 
             {/* Text Sizing */}
@@ -671,7 +722,7 @@ export default function DesignSystemPage() {
         {/* ===================== COLORS ===================== */}
         <section id="colors" className="py-12 md:py-16 lg:py-24 px-6 md:px-12 border-b-4 border-black bg-gray-50">
           <div className="max-w-[1400px] mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8">Colors</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 font-gunterz">Colors</h2>
 
             {/* Primary Colors */}
             <h3 className="text-lg font-bold mb-4 text-gray-600">Primary</h3>
@@ -798,7 +849,7 @@ export default function DesignSystemPage() {
         {/* ===================== COMPONENTS ===================== */}
         <section id="components" className="py-12 md:py-16 lg:py-24 px-6 md:px-12">
           <div className="max-w-[1400px] mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8">Components</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-8 font-gunterz">Components</h2>
 
             {/* Buttons */}
             <div className="mb-12">
@@ -905,14 +956,9 @@ export default function DesignSystemPage() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-black text-white py-8 px-6">
-        <div className="max-w-[1400px] mx-auto text-center">
-          <p className="text-gray-400 text-sm">
-            Press <kbd className="bg-gray-800 px-2 py-1 rounded text-xs">Ctrl+Shift+D</kbd> on any page to toggle debug overlay
-          </p>
-        </div>
-      </footer>
-    </div>
+        {/* Site Footer */}
+        <Footer />
+      </div>
+    </>
   );
 }

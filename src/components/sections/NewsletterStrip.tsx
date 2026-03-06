@@ -33,7 +33,7 @@ export function NewsletterStrip() {
       <div
         className="max-w-[1400px] mx-auto"
         style={{
-          padding: 'clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 3rem)',
+          padding: 'clamp(2rem, 4vw, 3rem) clamp(1rem, 4vw, 5.75rem)',
         }}
       >
         <div className="grid lg:grid-cols-[1fr_2fr] gap-8 lg:gap-12 items-start">

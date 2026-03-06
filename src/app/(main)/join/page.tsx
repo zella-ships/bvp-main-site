@@ -506,7 +506,7 @@ export default function JoinPage() {
               <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70" />
               <div
                 className="relative z-10 max-w-[1400px] mx-auto w-full"
-                style={{ padding: 'clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 6rem)' }}
+                style={{ padding: 'clamp(2rem, 4vw, 3rem) clamp(1rem, 4vw, 5.75rem)' }}
               >
                 <p className="text-sm uppercase tracking-widest mb-4 text-white/60">
                   Join the Movement
@@ -515,7 +515,7 @@ export default function JoinPage() {
                   className="font-gunterz font-bold text-white"
                   style={{ fontSize: 'clamp(1.75rem, 1rem + 3.5vw, 3rem)' }}
                 >
-                  Why Join BVP as a Member?
+                  Join Our Movement
                 </h1>
               </div>
             </section>
@@ -529,7 +529,7 @@ export default function JoinPage() {
                 {/* Left Column - Description */}
                 <div
                   className="md:border-r border-gray-200"
-                  style={{ padding: 'clamp(1.5rem, 4vw, 3rem)' }}
+                  style={{ padding: 'clamp(1rem, 4vw, 5.75rem)' }}
                 >
                   <div className="space-y-5">
                     <p className="text-[17px] leading-relaxed text-gray-700">
@@ -569,7 +569,7 @@ export default function JoinPage() {
                 {/* Right Column - Membership Cards */}
                 <div
                   className="flex flex-col gap-6"
-                  style={{ padding: 'clamp(1.5rem, 4vw, 3rem)' }}
+                  style={{ padding: 'clamp(1rem, 4vw, 5.75rem)' }}
                 >
                   <p className="text-xs font-bold uppercase tracking-[0.08em] text-gray-400">
                     Membership Categories
@@ -719,14 +719,14 @@ export default function JoinPage() {
             {/* Hero */}
             <section
               className="border-b border-gray-200"
-              style={{ padding: 'clamp(6rem, 10vw, 8rem) clamp(1.5rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem)' }}
+              style={{ padding: 'clamp(6rem, 10vw, 8rem) clamp(1rem, 4vw, 5.75rem) clamp(2rem, 4vw, 3rem)' }}
             >
               <div className="max-w-[1400px] mx-auto">
                 <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-gray-400 mb-4">
                   Join Us
                 </p>
                 <h1
-                  className="font-extrabold text-black leading-tight font-display"
+                  className="font-gunterz font-bold text-black leading-tight"
                   style={{ fontSize: 'clamp(1.75rem, 1rem + 3.5vw, 3rem)' }}
                 >
                   Become an Advocate
@@ -737,7 +737,7 @@ export default function JoinPage() {
             {/* Form Container */}
             <section
               className="max-w-3xl"
-              style={{ padding: 'clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 3rem)' }}
+              style={{ padding: 'clamp(2rem, 5vw, 3rem) clamp(1rem, 4vw, 5.75rem)' }}
             >
               <button
                 onClick={() => handleViewChange("main")}
@@ -1208,14 +1208,14 @@ export default function JoinPage() {
             {/* Hero */}
             <section
               className="border-b border-gray-200"
-              style={{ padding: 'clamp(6rem, 10vw, 8rem) clamp(1.5rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem)' }}
+              style={{ padding: 'clamp(6rem, 10vw, 8rem) clamp(1rem, 4vw, 5.75rem) clamp(2rem, 4vw, 3rem)' }}
             >
               <div className="max-w-[1400px] mx-auto">
                 <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-gray-400 mb-4">
                   Join Us
                 </p>
                 <h1
-                  className="font-extrabold text-black leading-tight font-display"
+                  className="font-gunterz font-bold text-black leading-tight"
                   style={{ fontSize: 'clamp(1.75rem, 1rem + 3.5vw, 3rem)' }}
                 >
                   Welcome to the Movement
@@ -1224,7 +1224,7 @@ export default function JoinPage() {
             </section>
 
             {/* Success Message */}
-            <section style={{ padding: 'clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 3rem)' }}>
+            <section style={{ padding: 'clamp(2rem, 5vw, 3rem) clamp(1rem, 4vw, 5.75rem)' }}>
               <div className="max-w-xl">
                 <div className="mb-8">
                   <svg

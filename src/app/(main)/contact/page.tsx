@@ -98,13 +98,13 @@ export default function ContactPage() {
       <div className="min-h-screen bg-white">
         {/* Hero */}
         <section className="bg-white border-b border-gray-200">
-          <div style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1.5rem, 5vw, 6rem) clamp(2rem, 5vw, 4rem)' }}>
+          <div style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1rem, 4vw, 5.75rem) clamp(2rem, 5vw, 4rem)' }}>
             <div className="max-w-[1400px] mx-auto">
               <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
                 Message Sent
               </p>
               <h1
-                className="font-black leading-tight mb-4 font-display"
+                className="font-gunterz font-bold leading-tight mb-4"
                 style={{ fontSize: 'clamp(1.75rem, 1rem + 3.5vw, 3rem)' }}
               >
                 Thank You
@@ -113,7 +113,7 @@ export default function ContactPage() {
           </div>
         </section>
 
-        <section style={{ padding: 'clamp(2rem, 6vw, 4rem) clamp(1.5rem, 5vw, 6rem)' }}>
+        <section style={{ padding: 'clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 5.75rem)' }}>
           <div className="max-w-xl">
             <div className="mb-6">
               <svg
@@ -167,7 +167,7 @@ export default function ContactPage() {
       {/* Hero - Compact */}
       <section
         className="bg-white border-b border-gray-200"
-        style={{ padding: 'clamp(6rem, 10vw, 8rem) clamp(1.5rem, 5vw, 6rem) clamp(1rem, 2vw, 1.5rem)' }}
+        style={{ padding: 'clamp(6rem, 10vw, 8rem) clamp(1rem, 4vw, 5.75rem) clamp(1rem, 2vw, 1.5rem)' }}
       >
         <div className="max-w-[1400px] mx-auto">
           <p className="text-sm uppercase tracking-widest text-gray-400 mb-4">

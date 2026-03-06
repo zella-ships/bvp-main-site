@@ -110,8 +110,8 @@ export function NewsletterSection() {
       style={{
         paddingTop: 'clamp(4rem, 10vw, 8.75rem)',
         paddingBottom: 'clamp(4rem, 10vw, 8.75rem)',
-        paddingLeft: 'clamp(1.5rem, 4vw, 5.75rem)',
-        paddingRight: 'clamp(1.5rem, 4vw, 5.75rem)',
+        paddingLeft: 'clamp(1rem, 4vw, 5.75rem)',
+        paddingRight: 'clamp(1rem, 4vw, 5.75rem)',
       }}
     >
       {/* Camo pattern — full width behind content */}

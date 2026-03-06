@@ -20,20 +20,20 @@ const sections = [
 // Stats data
 const stats = [
   {
-    value: '$100 Billion',
-    label: 'denied',
+    line1: '$100B',
+    line2: 'DENIED',
     description:
       "Since World War II, disparities in veterans' benefits have cost Black veterans and their families an estimated $100 Billion.",
   },
   {
-    value: '32x',
-    label: 'wealth gap',
+    line1: '32X',
+    line2: 'WEALTH GAP',
     description:
       'White veterans hold 32 times more wealth than Black veterans—a gap of $164,000.',
   },
   {
-    value: '33%',
-    label: 'homeless',
+    line1: '33%',
+    line2: 'HOMELESS',
     description:
       "An alarming 33% of Black veterans account for 1/3 of our nation's homeless veteran population and face a 44% greater likelihood of unemployment.",
   },
@@ -66,64 +66,72 @@ function StickySubNav({
     >
       {/* Spacer for header */}
       <div className="h-12 md:h-[60px] bg-white" />
-      <div
-        ref={navRef}
-        className="max-w-[900px] mx-auto w-full flex px-4 lg:px-6 overflow-x-auto scrollbar-hide"
-        style={{ WebkitOverflowScrolling: 'touch' }}
-      >
-        {sections.map((section, index) => (
-          <button
-            key={section.id}
-            data-section={section.id}
-            onClick={() => onSectionClick(section.id)}
-            className={`relative px-3 lg:px-5 min-h-[56px] text-[17px] lg:text-[15px] font-gunterz font-bold tracking-[0.06em] uppercase whitespace-nowrap transition-colors flex-shrink-0 flex items-center ${
-              index === 0 ? 'pl-0' : ''
-            } ${activeSection === section.id ? 'text-gray-900' : 'text-gray-400 hover:text-gray-900'}`}
-            aria-current={activeSection === section.id ? 'true' : undefined}
-          >
-            {section.label}
-            <span
-              className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 transition-transform duration-200 ${
-                activeSection === section.id ? 'scale-x-100' : 'scale-x-0'
-              }`}
-            />
-          </button>
-        ))}
+      {/* Outer wrapper matches header padding */}
+      <div style={{ padding: '0 clamp(1rem, 4vw, 5.75rem)' }}>
+        <div
+          ref={navRef}
+          className="max-w-[900px] mx-auto w-full flex justify-start overflow-x-auto scrollbar-hide"
+          style={{ WebkitOverflowScrolling: 'touch' }}
+        >
+          {sections.map((section, index) => (
+            <button
+              key={section.id}
+              data-section={section.id}
+              onClick={() => onSectionClick(section.id)}
+              className={`relative px-3 lg:px-4 min-h-[56px] text-[13px] lg:text-[14px] font-gunterz font-bold tracking-[0.05em] uppercase whitespace-nowrap transition-colors flex-shrink-0 flex items-center ${
+                index === 0 ? 'pl-0' : ''
+              } ${activeSection === section.id ? 'text-gray-900' : 'text-gray-400 hover:text-gray-900'}`}
+              aria-current={activeSection === section.id ? 'true' : undefined}
+            >
+              {section.label}
+              <span
+                className={`absolute bottom-0 left-0 right-0 h-0.5 bg-gray-900 transition-transform duration-200 ${
+                  activeSection === section.id ? 'scale-x-100' : 'scale-x-0'
+                }`}
+              />
+            </button>
+          ))}
+        </div>
       </div>
     </nav>
   );
 }
 
-// Venn Diagram Component
+// Theory of Change Venn Diagram Component
 function VennDiagram() {
-  const [hoveredPillar, setHoveredPillar] = useState<string | null>(null);
+  const [activeKey, setActiveKey] = useState<string | null>(null);
+  const [repairActive, setRepairActive] = useState(false);
 
-  const pillars = [
-    {
-      id: 'narrative',
+  const pillars = {
+    narrative: {
       href: '#narrative',
-      name: 'Narrative\nBuilding',
-      description:
-        "Carries the evidence and stories into public understanding, shifting the nation's imagination so repair becomes thinkable.",
-      position: 'top-0 left-1/2 -translate-x-1/2',
+      description: "Carries the evidence and stories into public understanding, shifting the nation's imagination so repair becomes thinkable.",
     },
-    {
-      id: 'litigation',
+    litigation: {
       href: '#litigation',
-      name: 'Impact\nLitigation',
-      description:
-        'Builds the case for repair through data and law, turning fragmented evidence into a shared record that compels accountability.',
-      position: 'bottom-0 left-0',
+      description: 'Builds the case for repair through data and law, turning fragmented evidence into a shared record that compels accountability.',
     },
-    {
-      id: 'movement-building',
+    movement: {
       href: '#movement-building',
-      name: 'Movement\nBuilding',
-      description:
-        'Organizes communities as stewards of repair, rebuilding collective power into coordinated action.',
-      position: 'bottom-0 right-0',
+      description: 'Organizes communities as stewards of repair, rebuilding collective power into coordinated action.',
     },
-  ];
+  };
+
+  // Colors matching the pillar cards on home page exactly
+  const colors = {
+    narrative: { bg: '#1a1500', accent: '#FDC500' },     // Dark yellow-brown / gold
+    litigation: { bg: '#720C0C', accent: '#F44708' },    // Dark red / orange
+    movement: { bg: '#143601', accent: '#56C035' },      // Dark green / bright green
+  };
+
+  // 20% larger radius: 185 * 1.2 = 222
+  const R = 222;
+  // Circle centers (adjusted for larger size)
+  const centers = {
+    narrative: { cx: 620, cy: 270 },
+    litigation: { cx: 500, cy: 470 },
+    movement: { cx: 740, cy: 470 },
+  };
 
   const handlePillarClick = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
@@ -136,91 +144,299 @@ function VennDiagram() {
     }
   };
 
+  const getPillarOpacity = (key: string) => {
+    if (repairActive) return 0.45;
+    if (!activeKey) return 1;
+    if (activeKey === key) return 1;
+    return 0.25;
+  };
+
+  const getPillarScale = (key: string) => {
+    if (activeKey === key && !repairActive) return 'scale(1.04)';
+    return 'scale(1)';
+  };
+
+  // Camo only shows on hover
+  const getCamoOpacity = (key: string) => {
+    if (activeKey === key) return 0.4;
+    return 0;
+  };
+
+  const resetState = () => {
+    setActiveKey(null);
+    setRepairActive(false);
+  };
+
   return (
-    <div className="relative w-[500px] h-[480px] mx-auto my-12">
-      {pillars.map((pillar) => (
-        <a
-          key={pillar.id}
-          href={pillar.href}
-          onClick={(e) => handlePillarClick(e, pillar.href)}
-          onMouseEnter={() => setHoveredPillar(pillar.id)}
-          onMouseLeave={() => setHoveredPillar(null)}
-          onFocus={() => setHoveredPillar(pillar.id)}
-          onBlur={() => setHoveredPillar(null)}
-          className={`absolute w-[290px] h-[290px] rounded-full border-2 cursor-pointer transition-all duration-300 flex items-center justify-center flex-col text-center p-8 ${
-            pillar.position
-          } ${
-            hoveredPillar === pillar.id
-              ? 'bg-[#1a1a1a] border-[#1a1a1a] z-10'
-              : 'bg-white border-[#1a1a1a] z-[1]'
-          }`}
-          aria-label={pillar.name.replace('\n', ' ')}
+    <div
+      className="w-full max-w-[1400px] mx-auto my-12"
+      onMouseLeave={resetState}
+    >
+      <svg viewBox="0 0 1300 760" className="w-full h-auto">
+        <defs>
+          {/* Camo patterns - using objectBoundingBox for seamless fill */}
+          <pattern id="camo-yellow-venn" patternUnits="userSpaceOnUse" width="200" height="200">
+            <image href="/images/camo-yellow.png" width="200" height="200" preserveAspectRatio="xMidYMid slice" />
+          </pattern>
+          <pattern id="camo-red-venn" patternUnits="userSpaceOnUse" width="200" height="200">
+            <image href="/images/camo-red.png" width="200" height="200" preserveAspectRatio="xMidYMid slice" />
+          </pattern>
+          <pattern id="camo-green-venn" patternUnits="userSpaceOnUse" width="200" height="200">
+            <image href="/images/camo-green.png" width="200" height="200" preserveAspectRatio="xMidYMid slice" />
+          </pattern>
+
+          {/* Clip paths for overlaps */}
+          <clipPath id="clip-narrative">
+            <circle cx={centers.narrative.cx} cy={centers.narrative.cy} r={R} />
+          </clipPath>
+          <clipPath id="clip-litigation">
+            <circle cx={centers.litigation.cx} cy={centers.litigation.cy} r={R} />
+          </clipPath>
+          <clipPath id="clip-movement">
+            <circle cx={centers.movement.cx} cy={centers.movement.cy} r={R} />
+          </clipPath>
+        </defs>
+
+        {/* NARRATIVE CIRCLE (top - dark yellow/brown with gold text) */}
+        <g
+          className="cursor-pointer"
+          style={{
+            opacity: getPillarOpacity('narrative'),
+            transform: getPillarScale('narrative'),
+            transformOrigin: `${centers.narrative.cx}px ${centers.narrative.cy}px`,
+            transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
+          }}
+          onMouseEnter={() => { setActiveKey('narrative'); setRepairActive(false); }}
+          onClick={(e) => handlePillarClick(e, pillars.narrative.href)}
         >
-          <span
-            className={`text-xs font-extrabold tracking-[0.18em] uppercase leading-[1.4] whitespace-pre-line transition-colors duration-300 ${
-              hoveredPillar === pillar.id ? 'text-white' : 'text-[#1a1a1a]'
-            }`}
-          >
-            {pillar.name}
-          </span>
-          <span
-            className={`text-xs leading-[1.55] max-w-[190px] mt-3 transition-all duration-300 ${
-              hoveredPillar === pillar.id
-                ? 'opacity-100 translate-y-0 text-white/55'
-                : 'opacity-0 translate-y-2 text-transparent'
-            }`}
-          >
-            {pillar.description}
-          </span>
-          <span
-            className={`text-[11px] font-bold tracking-[0.05em] text-white mt-3 transition-all duration-300 ${
-              hoveredPillar === pillar.id ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-            }`}
-          >
-            Learn more →
-          </span>
-        </a>
-      ))}
+          {/* Solid base color */}
+          <circle cx={centers.narrative.cx} cy={centers.narrative.cy} r={R} fill={colors.narrative.bg} />
+          {/* Camo overlay - only visible on hover */}
+          <circle
+            cx={centers.narrative.cx}
+            cy={centers.narrative.cy}
+            r={R}
+            fill="url(#camo-yellow-venn)"
+            style={{ opacity: getCamoOpacity('narrative'), transition: 'opacity 0.4s ease-out' }}
+          />
+          <text x={centers.narrative.cx} y={centers.narrative.cy - 50} textAnchor="middle" fill={colors.narrative.accent} style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.2em' }} className="uppercase pointer-events-none">
+            <tspan x={centers.narrative.cx}>Narrative</tspan>
+            <tspan x={centers.narrative.cx} dy="28">Building</tspan>
+          </text>
+        </g>
 
-      {/* Center intersection arcs - forming the "REPAIR" triangle */}
-      <svg
-        className="absolute inset-0 w-full h-full z-[15] pointer-events-none"
-        viewBox="0 0 500 480"
-      >
-        {/* Bottom arc: follows Narrative circle's bottom curve (center 250,145 r=145) */}
-        <path
-          d="M 220 287 A 145 145 0 0 0 280 287"
-          fill="none"
-          stroke="#999"
-          strokeWidth="2"
-          strokeDasharray="6 4"
+        {/* MOVEMENT CIRCLE (bottom right - dark green with green text) */}
+        <g
+          className="cursor-pointer"
+          style={{
+            opacity: getPillarOpacity('movement'),
+            transform: getPillarScale('movement'),
+            transformOrigin: `${centers.movement.cx}px ${centers.movement.cy}px`,
+            transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
+          }}
+          onMouseEnter={() => { setActiveKey('movement'); setRepairActive(false); }}
+          onClick={(e) => handlePillarClick(e, pillars.movement.href)}
+        >
+          <circle cx={centers.movement.cx} cy={centers.movement.cy} r={R} fill={colors.movement.bg} />
+          <circle
+            cx={centers.movement.cx}
+            cy={centers.movement.cy}
+            r={R}
+            fill="url(#camo-green-venn)"
+            style={{ opacity: getCamoOpacity('movement'), transition: 'opacity 0.4s ease-out' }}
+          />
+          <text x={centers.movement.cx + 50} y={centers.movement.cy + 30} textAnchor="middle" fill={colors.movement.accent} style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.2em' }} className="uppercase pointer-events-none">
+            <tspan x={centers.movement.cx + 50}>Movement</tspan>
+            <tspan x={centers.movement.cx + 50} dy="28">Building</tspan>
+          </text>
+        </g>
+
+        {/* LITIGATION CIRCLE (bottom left - dark red with orange text) */}
+        <g
+          className="cursor-pointer"
+          style={{
+            opacity: getPillarOpacity('litigation'),
+            transform: getPillarScale('litigation'),
+            transformOrigin: `${centers.litigation.cx}px ${centers.litigation.cy}px`,
+            transition: 'opacity 0.4s ease-out, transform 0.4s ease-out',
+          }}
+          onMouseEnter={() => { setActiveKey('litigation'); setRepairActive(false); }}
+          onClick={(e) => handlePillarClick(e, pillars.litigation.href)}
+        >
+          <circle cx={centers.litigation.cx} cy={centers.litigation.cy} r={R} fill={colors.litigation.bg} />
+          <circle
+            cx={centers.litigation.cx}
+            cy={centers.litigation.cy}
+            r={R}
+            fill="url(#camo-red-venn)"
+            style={{ opacity: getCamoOpacity('litigation'), transition: 'opacity 0.4s ease-out' }}
+          />
+          <text x={centers.litigation.cx - 50} y={centers.litigation.cy + 30} textAnchor="middle" fill={colors.litigation.accent} style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.2em' }} className="uppercase pointer-events-none">
+            <tspan x={centers.litigation.cx - 50}>Impact</tspan>
+            <tspan x={centers.litigation.cx - 50} dy="28">Litigation</tspan>
+          </text>
+        </g>
+
+        {/* PAIRWISE OVERLAPS - show active pillar's camo when hovered */}
+        {/* Narrative + Litigation overlap */}
+        <g clipPath="url(#clip-narrative)" className="pointer-events-none">
+          <circle
+            cx={centers.litigation.cx}
+            cy={centers.litigation.cy}
+            r={R}
+            fill={activeKey === 'narrative' ? colors.narrative.bg : activeKey === 'litigation' ? colors.litigation.bg : '#2A1005'}
+            style={{ transition: 'fill 0.4s ease-out' }}
+          />
+          <circle
+            cx={centers.litigation.cx}
+            cy={centers.litigation.cy}
+            r={R}
+            fill={activeKey === 'narrative' ? 'url(#camo-yellow-venn)' : activeKey === 'litigation' ? 'url(#camo-red-venn)' : 'none'}
+            style={{ opacity: activeKey === 'narrative' || activeKey === 'litigation' ? 0.4 : 0, transition: 'opacity 0.4s ease-out' }}
+          />
+        </g>
+        {/* Narrative + Movement overlap */}
+        <g clipPath="url(#clip-narrative)" className="pointer-events-none">
+          <circle
+            cx={centers.movement.cx}
+            cy={centers.movement.cy}
+            r={R}
+            fill={activeKey === 'narrative' ? colors.narrative.bg : activeKey === 'movement' ? colors.movement.bg : '#0F1A05'}
+            style={{ transition: 'fill 0.4s ease-out' }}
+          />
+          <circle
+            cx={centers.movement.cx}
+            cy={centers.movement.cy}
+            r={R}
+            fill={activeKey === 'narrative' ? 'url(#camo-yellow-venn)' : activeKey === 'movement' ? 'url(#camo-green-venn)' : 'none'}
+            style={{ opacity: activeKey === 'narrative' || activeKey === 'movement' ? 0.4 : 0, transition: 'opacity 0.4s ease-out' }}
+          />
+        </g>
+        {/* Litigation + Movement overlap */}
+        <g clipPath="url(#clip-litigation)" className="pointer-events-none">
+          <circle
+            cx={centers.movement.cx}
+            cy={centers.movement.cy}
+            r={R}
+            fill={activeKey === 'litigation' ? colors.litigation.bg : activeKey === 'movement' ? colors.movement.bg : '#1A0A05'}
+            style={{ transition: 'fill 0.4s ease-out' }}
+          />
+          <circle
+            cx={centers.movement.cx}
+            cy={centers.movement.cy}
+            r={R}
+            fill={activeKey === 'litigation' ? 'url(#camo-red-venn)' : activeKey === 'movement' ? 'url(#camo-green-venn)' : 'none'}
+            style={{ opacity: activeKey === 'litigation' || activeKey === 'movement' ? 0.4 : 0, transition: 'opacity 0.4s ease-out' }}
+          />
+        </g>
+
+        {/* TRIPLE INTERSECTION — Repair (subdued when pillar is hovered) */}
+        <g
+          className="cursor-pointer"
+          onMouseEnter={() => { setRepairActive(true); setActiveKey(null); }}
+          style={{ opacity: activeKey ? 0.5 : 1, transition: 'opacity 0.4s ease-out' }}
+        >
+          <g clipPath="url(#clip-narrative)">
+            <g clipPath="url(#clip-litigation)">
+              <circle cx={centers.movement.cx} cy={centers.movement.cy} r={R} fill={repairActive ? '#B8894D' : '#C4985A'} className="transition-[fill] duration-300" />
+            </g>
+          </g>
+        </g>
+
+        {/* REPAIR label */}
+        <text x="620" y="420" textAnchor="middle" fill="#FFFFFF" style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.2em' }} className="uppercase pointer-events-none">
+          Repair
+        </text>
+        <circle
+          cx="620" cy="415" r="55" fill="transparent"
+          className="cursor-pointer"
+          onMouseEnter={() => { setRepairActive(true); setActiveKey(null); }}
         />
-        {/* Left arc: follows Litigation circle's right edge (center 145,335 r=145) */}
-        <path
-          d="M 220 287 A 145 145 0 0 1 250 235"
-          fill="none"
-          stroke="#999"
-          strokeWidth="2"
-          strokeDasharray="6 4"
-        />
-        {/* Right arc: follows Movement circle's left edge (center 355,335 r=145) */}
-        <path
-          d="M 280 287 A 145 145 0 0 0 250 235"
-          fill="none"
-          stroke="#999"
-          strokeWidth="2"
-          strokeDasharray="6 4"
-        />
+
+        {/* CALLOUT: Narrative */}
+        <g className={`transition-opacity duration-300 ${activeKey === 'narrative' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <circle cx="730" cy="210" r="4" fill={colors.narrative.accent} />
+          <line x1="730" y1="210" x2="1040" y2="210" stroke={colors.narrative.accent} strokeWidth="1" />
+          <line x1="1040" y1="210" x2="1040" y2="230" stroke={colors.narrative.accent} strokeWidth="1" />
+          <foreignObject x="1040" y="235" width="260" height="180">
+            <div>
+              <p className="text-base leading-relaxed text-gray-600 mb-4">
+                {pillars.narrative.description}
+              </p>
+              <a
+                href={pillars.narrative.href}
+                onClick={(e) => handlePillarClick(e, pillars.narrative.href)}
+                className="text-sm font-bold border-b pb-0.5 transition-colors"
+                style={{ color: colors.narrative.accent, borderColor: colors.narrative.accent }}
+              >
+                Learn more →
+              </a>
+            </div>
+          </foreignObject>
+        </g>
+
+        {/* CALLOUT: Litigation */}
+        <g className={`transition-opacity duration-300 ${activeKey === 'litigation' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <circle cx="365" cy="430" r="4" fill={colors.litigation.accent} />
+          <line x1="365" y1="430" x2="30" y2="430" stroke={colors.litigation.accent} strokeWidth="1" />
+          <line x1="30" y1="430" x2="30" y2="450" stroke={colors.litigation.accent} strokeWidth="1" />
+          <foreignObject x="30" y="455" width="260" height="200">
+            <div>
+              <p className="text-base leading-relaxed text-gray-600 mb-4">
+                {pillars.litigation.description}
+              </p>
+              <a
+                href={pillars.litigation.href}
+                onClick={(e) => handlePillarClick(e, pillars.litigation.href)}
+                className="text-sm font-bold border-b pb-0.5 transition-colors"
+                style={{ color: colors.litigation.accent, borderColor: colors.litigation.accent }}
+              >
+                Learn more →
+              </a>
+            </div>
+          </foreignObject>
+        </g>
+
+        {/* CALLOUT: Movement */}
+        <g className={`transition-opacity duration-300 ${activeKey === 'movement' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <circle cx="875" cy="430" r="4" fill={colors.movement.accent} />
+          <line x1="875" y1="430" x2="1040" y2="430" stroke={colors.movement.accent} strokeWidth="1" />
+          <line x1="1040" y1="430" x2="1040" y2="450" stroke={colors.movement.accent} strokeWidth="1" />
+          <foreignObject x="1040" y="455" width="260" height="180">
+            <div>
+              <p className="text-base leading-relaxed text-gray-600 mb-4">
+                {pillars.movement.description}
+              </p>
+              <a
+                href={pillars.movement.href}
+                onClick={(e) => handlePillarClick(e, pillars.movement.href)}
+                className="text-sm font-bold border-b pb-0.5 transition-colors"
+                style={{ color: colors.movement.accent, borderColor: colors.movement.accent }}
+              >
+                Learn more →
+              </a>
+            </div>
+          </foreignObject>
+        </g>
+
+        {/* CALLOUT: Repair */}
+        <g className={`transition-opacity duration-300 ${repairActive ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          <circle cx="660" cy="415" r="4" fill="#C4985A" />
+          <line x1="660" y1="415" x2="1040" y2="415" stroke="#C4985A" strokeWidth="1" />
+          <line x1="1040" y1="415" x2="1040" y2="435" stroke="#C4985A" strokeWidth="1" />
+          <foreignObject x="1040" y="440" width="260" height="200">
+            <div>
+              <p className="text-xs font-bold tracking-[0.2em] uppercase text-[#C4985A] mb-2">Repair</p>
+              <p className="text-base leading-relaxed italic text-black mb-3">
+                Not a fourth pillar — the reason the other three exist.
+              </p>
+              <p className="text-sm leading-relaxed text-gray-500">
+                Each alone is insufficient. Repair requires all three working in concert.
+              </p>
+            </div>
+          </foreignObject>
+        </g>
       </svg>
-
-      {/* Center label */}
-      <div
-        className={`absolute top-[58%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none text-[13px] font-extrabold tracking-[0.15em] uppercase transition-colors duration-300 ${
-          hoveredPillar ? 'text-white' : 'text-[#1a1a1a]'
-        }`}
-      >
-        Repair
-      </div>
     </div>
   );
 }
@@ -357,7 +573,7 @@ export default function OurWorkPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70" />
           <div
             className="relative z-10 max-w-[1400px] mx-auto w-full"
-            style={{ padding: 'clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 5vw, 6rem)' }}
+            style={{ padding: 'clamp(2.5rem, 6vw, 5rem) clamp(1rem, 4vw, 5.75rem)' }}
           >
             <p className="text-sm uppercase tracking-widest mb-4 text-white/60">Our Work</p>
             <h1
@@ -377,7 +593,7 @@ export default function OurWorkPage() {
         {/* ============================================== */}
         {/* WORK CONTENT */}
         {/* ============================================== */}
-        <section style={{ padding: 'clamp(1rem, 2vw, 1rem) clamp(1.5rem, 5vw, 6rem) clamp(3rem, 8vw, 5rem)' }}>
+        <section style={{ padding: 'clamp(2.5rem, 5vw, 4rem) clamp(1rem, 4vw, 5.75rem) clamp(3rem, 8vw, 5rem)' }}>
           <div className="max-w-[900px] mx-auto">
             {/* ============================================== */}
             {/* CASE FOR REPAIR */}
@@ -400,37 +616,40 @@ export default function OurWorkPage() {
               </p>
 
               {/* Stats Data Vis */}
-              <div
-                className="bg-gray-100"
-                style={{ padding: 'clamp(1.5rem, 4vw, 3rem)', marginBottom: 'clamp(2rem, 5vw, 3rem)' }}
-              >
+              <div style={{ marginBottom: 'clamp(2rem, 5vw, 3rem)' }}>
                 {stats.map((stat, index) => (
                   <div
-                    key={stat.value}
-                    className={`grid items-center ${
-                      index !== stats.length - 1 ? 'border-b border-gray-300' : ''
-                    }`}
+                    key={stat.line1}
+                    className="bg-[#F94F36]"
                     style={{
-                      padding: 'clamp(1.5rem, 3vw, 2rem) 0',
-                      gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-                      gap: 'clamp(1.5rem, 4vw, 3rem)',
+                      marginBottom: index !== stats.length - 1 ? '4px' : '0',
                     }}
                   >
-                    <div>
-                      <p
-                        className="font-gunterz font-black"
-                        style={{ fontSize: 'clamp(1.75rem, 1.5rem + 2vw, 3rem)' }}
-                      >
-                        <span className="bg-[#FDC500] px-2">{stat.value}</span> {stat.label}
-                      </p>
-                    </div>
-                    <div>
-                      <p
-                        className="leading-relaxed"
-                        style={{ fontSize: 'clamp(1rem, 0.9rem + 0.5vw, 1.125rem)' }}
-                      >
-                        {stat.description}
-                      </p>
+                    <div
+                      className="flex flex-col sm:grid sm:grid-cols-[minmax(140px,200px)_1fr] sm:items-center"
+                      style={{
+                        padding: 'clamp(1.5rem, 4vw, 2.5rem) clamp(1.5rem, 4vw, 3rem)',
+                        gap: 'clamp(1rem, 3vw, 2rem)',
+                      }}
+                    >
+                      <div>
+                        <p
+                          className="font-gunterz font-black text-white leading-[0.95] uppercase"
+                          style={{ fontSize: 'clamp(1.75rem, 1.25rem + 2.5vw, 2.75rem)' }}
+                        >
+                          {stat.line1}
+                          <br />
+                          {stat.line2}
+                        </p>
+                      </div>
+                      <div>
+                        <p
+                          className="leading-relaxed text-white italic"
+                          style={{ fontSize: 'clamp(1rem, 0.9rem + 0.5vw, 1.125rem)' }}
+                        >
+                          {stat.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -541,20 +760,17 @@ export default function OurWorkPage() {
                   BVP's "Theory of Change" centers on our five year priorities along three core pillars:
                 </p>
 
-                {/* Venn Diagram */}
-                <div className="hidden md:block">
+                {/* Theory of Change Diagram */}
+                <div className="hidden md:block mb-8">
                   <VennDiagram />
-                  <p className="text-xs text-gray-400 text-center italic mb-8">
-                    Hover to explore each pillar
-                  </p>
                 </div>
 
-                {/* Mobile: Simple list instead of diagram */}
-                <div className="md:hidden space-y-4 mb-8">
+                {/* Mobile: Pillar cards with camo backgrounds */}
+                <div className="md:hidden space-y-3 mb-8">
                   {[
-                    { name: 'Narrative Building', href: '#narrative' },
-                    { name: 'Impact Litigation', href: '#litigation' },
-                    { name: 'Movement Building', href: '#movement-building' },
+                    { name: 'Narrative Building', href: '#narrative', bg: '#1a1500', camo: '/images/camo-yellow.png', accent: '#FDC500' },
+                    { name: 'Impact Litigation', href: '#litigation', bg: '#720C0C', camo: '/images/camo-red.png', accent: '#F44708' },
+                    { name: 'Movement Building', href: '#movement-building', bg: '#143601', camo: '/images/camo-green.png', accent: '#56C035' },
                   ].map((pillar) => (
                     <a
                       key={pillar.name}
@@ -563,10 +779,24 @@ export default function OurWorkPage() {
                         e.preventDefault();
                         handleSectionClick(pillar.href.substring(1));
                       }}
-                      className="block p-4 border-2 border-black hover:bg-black hover:text-white transition-colors"
+                      className="block relative overflow-hidden rounded-lg"
+                      style={{ backgroundColor: pillar.bg }}
                     >
-                      <span className="font-bold">{pillar.name}</span>
-                      <span className="ml-2">→</span>
+                      {/* Camo background */}
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          backgroundImage: `url(${pillar.camo})`,
+                          backgroundSize: '150px',
+                          backgroundRepeat: 'repeat',
+                          opacity: 0.3,
+                        }}
+                      />
+                      {/* Content */}
+                      <div className="relative z-10 p-5 flex items-center justify-between">
+                        <span className="font-gunterz font-bold text-white text-lg">{pillar.name}</span>
+                        <span className="text-xl" style={{ color: pillar.accent }}>→</span>
+                      </div>
                     </a>
                   ))}
                 </div>

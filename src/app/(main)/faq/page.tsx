@@ -269,7 +269,7 @@ export default function FAQPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="bg-white border-b border-gray-200">
-        <div style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1.5rem, 5vw, 6rem) clamp(2rem, 5vw, 3rem)' }}>
+        <div style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1rem, 4vw, 5.75rem) clamp(2rem, 5vw, 3rem)' }}>
           <div className="max-w-[1400px] mx-auto">
             <p className="text-sm uppercase tracking-widest text-gray-400 mb-4">
               Frequently Asked Questions
@@ -286,7 +286,7 @@ export default function FAQPage() {
 
       {/* FAQ Content */}
       <section className="bg-gray-100">
-        <div style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 6rem)' }}>
+        <div style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 5.75rem)' }}>
           <div className="max-w-[1400px] mx-auto">
             {faqSections.map((section, index) => (
               <FAQSectionComponent

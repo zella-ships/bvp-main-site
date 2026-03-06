@@ -52,7 +52,7 @@ interface HeroProps {
 
 export function Hero({
   headline = "We advance reparative justice for Black veterans and military families through litigation, narrative, and mobilization.",
-  backgroundImage = "/images/hero-bg.jpg",
+  backgroundImage = "/images/veteran-hero.jpg",
   showDebugSpacing = false,
 }: HeroProps) {
   const containerRef = useRef<HTMLElement>(null);
@@ -83,14 +83,18 @@ export function Hero({
     <section
       ref={containerRef}
       className="
-        relative 
-        h-screen 
+        relative
+        h-screen
         min-h-[600px]
         max-h-[1200px]
-        w-full 
+        w-full
         overflow-hidden
         bg-black
       "
+      style={{
+        paddingLeft: 'clamp(1rem, 4vw, 5.75rem)',
+        paddingRight: 'clamp(1rem, 4vw, 5.75rem)',
+      }}
     >
       {/* Background Image with Parallax */}
       <motion.div
@@ -134,8 +138,6 @@ export function Hero({
           flex flex-col justify-end
         "
         style={{
-          paddingLeft: 'clamp(1rem, 4vw, 5.75rem)',
-          paddingRight: 'clamp(1rem, 4vw, 5.75rem)',
           paddingTop: 'clamp(5rem, 8vw, 8rem)',
           paddingBottom: 'clamp(7.5rem, 4vw + 99px, 12rem)',
         }}

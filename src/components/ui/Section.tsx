@@ -42,9 +42,9 @@ const Section = forwardRef<HTMLElement, SectionProps>(
     // Fluid padding values using clamp()
     const paddingStyles = {
       none: {},
-      sm: { padding: 'clamp(3rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3rem)' },
-      md: { padding: 'clamp(4rem, 8vw, 5rem) clamp(1.5rem, 4vw, 3rem)' },
-      lg: { padding: 'clamp(5rem, 10vw, 8rem) clamp(1.5rem, 4vw, 3rem)' },
+      sm: { padding: 'clamp(3rem, 6vw, 4rem) clamp(1rem, 4vw, 5.75rem)' },
+      md: { padding: 'clamp(4rem, 8vw, 5rem) clamp(1rem, 4vw, 5.75rem)' },
+      lg: { padding: 'clamp(5rem, 10vw, 8rem) clamp(1rem, 4vw, 5.75rem)' },
     };
 
     return (

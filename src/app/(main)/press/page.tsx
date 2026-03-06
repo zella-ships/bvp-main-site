@@ -340,7 +340,7 @@ export default function PressPage() {
             opacity: 0.5,
           }}
         />
-        <div className="relative z-10" style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1.5rem, 5vw, 6rem) clamp(2rem, 5vw, 4rem)' }}>
+        <div className="relative z-10" style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1rem, 4vw, 5.75rem) clamp(2rem, 5vw, 4rem)' }}>
           <div className="max-w-[1400px] mx-auto">
             <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
               External coverage
@@ -366,7 +366,7 @@ export default function PressPage() {
       <div className="sticky top-[56px] md:top-[60px] z-30 bg-white border-b border-gray-200">
         <div
           className="space-y-4 md:space-y-0 md:flex md:flex-wrap md:items-center md:gap-6"
-          style={{ padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 5vw, 6rem)' }}
+          style={{ padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1rem, 4vw, 5.75rem)' }}
         >
           {/* Type Filters */}
           <div
@@ -433,7 +433,7 @@ export default function PressPage() {
         {/* Results Count */}
         <div
           className="flex justify-between py-3 text-[13px] font-semibold text-gray-400 tracking-wide border-t border-gray-100"
-          style={{ padding: '0.75rem clamp(1.5rem, 5vw, 6rem)' }}
+          style={{ padding: '0.75rem clamp(1rem, 4vw, 5.75rem)' }}
         >
           <span>
             {filteredItems.length} RESULT
@@ -447,7 +447,7 @@ export default function PressPage() {
       <section className="bg-gray-100">
         <div
           className="max-w-[1400px] mx-auto"
-          style={{ padding: '0 clamp(1.5rem, 5vw, 6rem) clamp(3rem, 8vw, 6rem)' }}
+          style={{ padding: '0 clamp(1rem, 4vw, 5.75rem) clamp(3rem, 8vw, 6rem)' }}
         >
           {groupedByYear.length > 0 ? (
             groupedByYear.map(([year, items]) => (

@@ -14,7 +14,7 @@ const team = [
     name: 'Richard Brookshire',
     role: 'Co-CEO + Co-Founder',
     bio: 'Richard Brookshire is a multi-hyphenate storyteller and reparationist working at the intersection of politics and culture. A nationally recognized political communications strategist, writer, director, and filmmaker, he\'s held previous leadership roles in communications strategy at Iraq & Afghanistan Veterans of America, the Human Rights Campaign, and The New School.\n\nHe is a former U.S. Army Combat Medic and a veteran of the War in Afghanistan. He is an alumnus of Fordham University, Columbia University School of International & Public Affairs, and New York Film Academy\'s Documentary Filmmaking School.',
-    image: null,
+    image: '/images/team/richard-brookshire.jpg',
     initials: 'RB',
     linkedin: 'https://www.linkedin.com/in/richardbrookshire/',
   },
@@ -22,7 +22,7 @@ const team = [
     name: 'Kyle Bibby',
     role: 'Co-CEO + Co-Founder',
     bio: 'Kyle Bibby is one of the co-founders of the Black Veterans Project. He also serves as the Chief of Campaigns at Color of Change, and as a Political Partner with the Truman National Security Project.\n\nAs a former Marine Corps infantry captain and Afghanistan War veteran, Kyle is a proven leader dedicated to equal rights, social justice, and ending wars. He served as a Presidential Management Fellow at the Office of Management and Budget during the Obama Administration.\n\nKyle holds a Master in Public Administration from Columbia University\'s School of International and Public Affairs, and a Bachelor of Science in Political Science from the United States Naval Academy.',
-    image: null,
+    image: '/images/team/kyle-bibby.jpg',
     initials: 'KB',
     linkedin: 'https://www.linkedin.com/in/kylebibby/',
   },
@@ -41,6 +41,22 @@ const team = [
     image: '/images/team/daniele-anderson.jpg',
     initials: 'DA',
     linkedin: 'https://www.linkedin.com/in/danieleanderson/',
+  },
+  {
+    name: 'Yolanda Hoskey',
+    role: 'Creative Director',
+    bio: 'Yolanda Hoskey is a Brooklyn-born multidisciplinary artist, storyteller, narrative strategist, and creative producer whose work speaks to the Black experience in America. Across photography, film, and creative production, her practice focuses on shaping and expanding narratives around Black life, identity, and cultural memory, centering stories that are often overlooked, flattened, or misrepresented.\n\nOver the past decade, Yolanda has built a career across the creative arts, working at the intersection of storytelling, cultural production, and visual practice. Her work spans editorial and commercial projects as well as independent artistic practice, moving fluidly between these spaces while bringing culturally grounded, intentional storytelling into every environment she engages.\n\nShe is a Magnum Foundation Fellow (2024), a BRICLab Artist-in-Residence, and the 2025 recipient of the International Photographic Council Rising Star Award, presented at the United Nations.',
+    image: '/images/team/yolanda-hoskey.jpg',
+    initials: 'YH',
+    linkedin: null,
+  },
+  {
+    name: 'Brianna Fernandez',
+    role: 'Operations',
+    bio: 'Brianna Fernandez is a NYC born artist and administrative worker deeply committed to building efficient, equitable systems that empower mission-driven work and amplify historically marginalized voices. For the past seven years, she has worked across the arts ecosystem as a curator, arts dealer, and liaison in both the primary and secondary markets, developing a strong foundation in operations, communications, and cross-sector collaboration.\n\nAs the niece of a U.S. Army veteran, Brianna brings a personal understanding of sacrifice, service, and generational impact to her role at Black Veterans Project. This connection fuels her commitment to advancing justice for Black veterans and their families. Through her work, she strives to help build an organization where operational excellence strengthens advocacy, research, and storytelling in pursuit of meaningful structural change.',
+    image: '/images/team/brianna-fernandez.jpg',
+    initials: 'BF',
+    linkedin: null,
   },
   {
     name: 'MaCherie Dunbar',
@@ -141,40 +157,33 @@ function TeamCard({
         0{index + 1}
       </div>
 
-      {/* Info Panel */}
+      {/* Info Panel - fixed height for consistency */}
       <div className="
         absolute bottom-0 left-0 right-0 bg-black z-10
         p-4 md:p-5
-        md:translate-y-[calc(100%-110px)] md:group-hover:translate-y-0
+        h-[55%]
+        flex flex-col
         transition-transform duration-500 ease-out
       ">
         <h3 className="font-gunterz font-bold text-white text-[clamp(17px,3.5vw,22px)] uppercase tracking-wide leading-tight">
           {member.name}
         </h3>
         <div className="w-6 h-px bg-[#FDC500]/60 my-1.5 md:my-2" />
-        <p className="text-[clamp(8px,1.6vw,10px)] md:text-[10px] uppercase tracking-[0.13em] text-[#FDC500] leading-tight md:mb-3">
+        <p className="text-[clamp(8px,1.6vw,10px)] md:text-[10px] uppercase tracking-[0.13em] text-[#FDC500] leading-tight mb-3">
           {member.role}
         </p>
 
-        {/* Desktop teaser - hidden on mobile */}
-        <p className="hidden md:block text-[12px] leading-[1.65] text-gray-500 font-light opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-75 line-clamp-2 mb-3">
+        {/* Teaser - grows to fill available space */}
+        <p className="text-[12px] leading-[1.65] text-gray-500 font-light line-clamp-5 flex-1">
           {teaser}
         </p>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-1.5 text-[9px] uppercase tracking-[0.14em] text-[#FDC500] opacity-0 group-hover:opacity-100 transition-opacity duration-200 delay-100">
+        {/* CTA */}
+        <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-[0.14em] text-[#FDC500] mt-3">
           <svg className="w-[11px] h-[11px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
           Full bio
-        </div>
-
-        {/* Mobile tap hint */}
-        <div className="flex md:hidden items-center gap-1 mt-1.5 text-[8px] uppercase tracking-widest text-[#FDC500]/40">
-          <svg className="w-[9px] h-[9px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>
-          </svg>
-          Tap for bio
         </div>
       </div>
 
@@ -354,9 +363,10 @@ function TeamDrawer({
           </svg>
         </button>
 
-        {/* Photo */}
+        {/* Photo - 75% height */}
         <div
-          className="relative w-full h-[200px] md:h-[320px] bg-[#181818] shrink-0 overflow-hidden"
+          className="relative w-full bg-[#181818] shrink-0 overflow-hidden"
+          style={{ height: '75%' }}
           onTouchStart={(e) => handleDragStart(e.touches[0].clientY)}
           onTouchMove={(e) => handleDragMove(e.touches[0].clientY)}
           onTouchEnd={handleDragEnd}
@@ -366,7 +376,7 @@ function TeamDrawer({
               src={member.image}
               alt={member.name}
               fill
-              className="object-cover object-top"
+              className="object-cover object-center"
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
@@ -494,7 +504,7 @@ function TeamSection() {
     <section
       id="founders"
       className="bg-[#f0ede8] scroll-mt-20"
-      style={{ padding: 'clamp(3rem, 8vw, 5rem) clamp(1rem, 4vw, 2.5rem)' }}
+      style={{ padding: 'clamp(3rem, 8vw, 5rem) clamp(1rem, 4vw, 5.75rem)' }}
     >
       <div className="max-w-[1400px] mx-auto">
         {/* Header */}
@@ -638,7 +648,7 @@ function Timeline() {
     <section
       className="bg-gray-100"
       style={{
-        padding: 'clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 6rem)',
+        padding: 'clamp(3rem, 8vw, 5rem) clamp(1rem, 4vw, 5.75rem)',
       }}
     >
       <div className="max-w-[1400px] mx-auto">
@@ -778,7 +788,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70" />
         <div
           className="relative z-10 max-w-[1400px] mx-auto w-full"
-          style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 6rem)' }}
+          style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 5.75rem)' }}
         >
           <p className="text-sm uppercase tracking-widest mb-4 text-white/60">Who We Are</p>
           <h1
@@ -791,7 +801,7 @@ export default function AboutPage() {
       </section>
 
       {/* MISSION */}
-      <section style={{ padding: 'clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 6rem)' }}>
+      <section style={{ padding: 'clamp(3rem, 8vw, 5rem) clamp(1rem, 4vw, 5.75rem)' }}>
         <div className="max-w-[1400px] mx-auto">
           <div className="max-w-4xl">
             <p
@@ -836,7 +846,7 @@ export default function AboutPage() {
       <section
         id="partners"
         className="scroll-mt-20"
-        style={{ padding: 'clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 6rem)' }}
+        style={{ padding: 'clamp(3rem, 8vw, 5rem) clamp(1rem, 4vw, 5.75rem)' }}
       >
         <div className="max-w-[1400px] mx-auto">
           <h2
@@ -849,7 +859,7 @@ export default function AboutPage() {
             className="text-gray-600 text-center"
             style={{ fontSize: 'clamp(1.125rem, 0.9rem + 1vw, 1.25rem)', marginBottom: 'clamp(2rem, 5vw, 3rem)' }}
           >
-            Organizations advancing the work alongside us.
+            Along with Yale Law School's, Jerome N. Frank Legal Services Organization, these are the organizations advancing the work alongside us.
           </p>
 
           <div
@@ -863,7 +873,7 @@ export default function AboutPage() {
                   alt={partner.name}
                   width={280}
                   height={120}
-                  className="w-auto object-contain opacity-60 grayscale mix-blend-multiply group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300 ease-out"
+                  className="w-auto object-contain opacity-60 grayscale group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-300 ease-out"
                   style={{
                     maxHeight: `${100 * (partner.scale || 1)}px`,
                     maxWidth: `${220 * (partner.scale || 1)}px`
@@ -878,7 +888,7 @@ export default function AboutPage() {
       {/* PRESS CTA */}
       <section
         className="bg-black text-white"
-        style={{ padding: 'clamp(3rem, 8vw, 5rem) clamp(1.5rem, 5vw, 6rem)' }}
+        style={{ padding: 'clamp(3rem, 8vw, 5rem) clamp(1rem, 4vw, 5.75rem)' }}
       >
         <div className="max-w-[1400px] mx-auto">
           <div

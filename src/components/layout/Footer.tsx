@@ -107,7 +107,7 @@ export function Footer() {
       {/* Main Footer Content - Fluid padding */}
       <div
         className="max-w-[1400px] mx-auto"
-        style={{ padding: 'clamp(2rem, 4vw, 4rem) clamp(1.5rem, 4vw, 4rem)' }}
+        style={{ padding: 'clamp(2rem, 4vw, 4rem) clamp(1rem, 4vw, 5.75rem)' }}
       >
         {/*
           FLUID GRID: Links + Search
@@ -145,7 +145,7 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div
           className="max-w-[1400px] mx-auto"
-          style={{ padding: 'clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 4vw, 4rem)' }}
+          style={{ padding: 'clamp(1rem, 2vw, 1.5rem) clamp(1rem, 4vw, 5.75rem)' }}
         >
           {/*
             FLUID FLEX: Wraps naturally based on available space

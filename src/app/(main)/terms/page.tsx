@@ -3,7 +3,7 @@ export default function TermsPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="bg-white border-b border-gray-200">
-        <div style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1.5rem, 5vw, 6rem) clamp(2rem, 5vw, 4rem)' }}>
+        <div style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1rem, 4vw, 5.75rem) clamp(2rem, 5vw, 4rem)' }}>
           <div className="max-w-[1400px] mx-auto">
             <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
               Legal
@@ -19,7 +19,7 @@ export default function TermsPage() {
       </section>
 
       {/* Content */}
-      <section style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 6rem)' }}>
+      <section style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 5.75rem)' }}>
         <article className="max-w-[800px]">
           <p className="text-sm text-gray-500 mb-8">
             Last updated: February 2026

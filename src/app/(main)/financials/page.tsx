@@ -54,7 +54,7 @@ export default function FinancialsPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="bg-white border-b border-gray-200">
-        <div style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1.5rem, 5vw, 6rem) clamp(2rem, 5vw, 4rem)' }}>
+        <div style={{ padding: 'clamp(6rem, 10vw, 6rem) clamp(1rem, 4vw, 5.75rem) clamp(2rem, 5vw, 4rem)' }}>
           <div className="max-w-[1400px] mx-auto">
             <p className="text-sm uppercase tracking-widest text-gray-400 mb-4">
               Transparency
@@ -70,7 +70,7 @@ export default function FinancialsPage() {
       </section>
 
       {/* Content */}
-      <section style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 6rem)' }}>
+      <section style={{ padding: 'clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 5.75rem)' }}>
         <div className="max-w-[900px]">
           <p className="text-xl leading-relaxed mb-12 text-gray-700">
             Black Veterans Project is committed to transparency and
@@ -79,7 +79,7 @@ export default function FinancialsPage() {
           </p>
 
           {/* Annual Reports */}
-          <h2 className="text-2xl font-bold mb-6 font-display">
+          <h2 className="font-gunterz font-bold text-2xl mb-6">
             Annual Reports
           </h2>
           <div className="space-y-4 mb-12">
@@ -89,7 +89,7 @@ export default function FinancialsPage() {
           </div>
 
           {/* Form 990s */}
-          <h2 className="text-2xl font-bold mb-6 font-display">IRS Form 990</h2>
+          <h2 className="font-gunterz font-bold text-2xl mb-6">IRS Form 990</h2>
           <div className="space-y-4 mb-12">
             {form990s.map((doc) => (
               <DocumentLink key={doc.title} {...doc} />
@@ -97,7 +97,7 @@ export default function FinancialsPage() {
           </div>
 
           {/* Tax-Exempt Status */}
-          <h2 className="text-2xl font-bold mb-6 font-display">
+          <h2 className="font-gunterz font-bold text-2xl mb-6">
             Tax-Exempt Status
           </h2>
           <div className="space-y-4">
