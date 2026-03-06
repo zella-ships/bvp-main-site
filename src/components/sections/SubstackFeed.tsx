@@ -10,19 +10,15 @@ const GREEN_DARK = "#1A3A1A";
 const GREEN_MID = "#2D5A2D";
 const GREEN_LIGHT = "#4A8A4A";
 
-// Dark Green Report Chevron Logo
+// Dark Green Report Logo Component
 function DarkGreenReportLogo({ size = 56 }: { size?: number }) {
   return (
-    <svg width={size} height={size * 0.75} viewBox="0 0 80 60" fill="none">
-      {/* Back chevrons - lighter layers */}
-      <path d="M40 52L10 28L16 22L40 42L64 22L70 28L40 52Z" fill={GREEN_LIGHT} opacity="0.3" />
-      <path d="M40 46L14 24L19 19L40 36L61 19L66 24L40 46Z" fill={GREEN_LIGHT} opacity="0.5" />
-      <path d="M40 40L18 20L22 16L40 30L58 16L62 20L40 40Z" fill={GREEN_MID} opacity="0.6" />
-      {/* Front chevron - darkest */}
-      <path d="M40 34L22 18L26 14L40 24L54 14L58 18L40 34Z" fill={GREEN_DARK} />
-      {/* Top accent chevron */}
-      <path d="M40 28L26 16L29 13L40 21L51 13L54 16L40 28Z" fill={GREEN_DARK} opacity="0.8" />
-    </svg>
+    <img
+      src="/images/dgr-logo.webp"
+      alt="Dark Green Report"
+      style={{ width: size, height: 'auto' }}
+      className="object-contain"
+    />
   );
 }
 
