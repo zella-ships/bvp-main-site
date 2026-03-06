@@ -93,7 +93,7 @@ interface TeamMember {
   bio: string;
   image: string | null;
   initials: string;
-  linkedin?: string;
+  linkedin?: string | null;
 }
 
 function TeamCard({
