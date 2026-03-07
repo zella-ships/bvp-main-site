@@ -270,7 +270,6 @@ export function SubstackFeed() {
                 onClick={() => setModalPost(post)}
                 className="group bg-white border border-gray-200 rounded-2xl overflow-hidden text-left transition-all duration-300 hover:shadow-lg"
               >
-                <div className="h-1 bg-[#FDC500] rounded-t-2xl" />
                 <div className="h-72 overflow-hidden" style={{ backgroundColor: CREAM }}>
                   {getPostImage(post) ? (
                     <img
