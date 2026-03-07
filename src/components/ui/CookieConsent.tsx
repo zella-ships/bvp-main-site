@@ -79,6 +79,16 @@ export function CookieConsent() {
 
   const focusTrapRef = useFocusTrap(isVisible);
   const previousFocusRef = useRef<HTMLElement | null>(null);
+  const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const announcementTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+      if (announcementTimeoutRef.current) clearTimeout(announcementTimeoutRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     // FORCE SHOW FOR DEBUG - remove localStorage check
@@ -113,7 +123,7 @@ export function CookieConsent() {
       announcement.className = "sr-only";
       announcement.textContent = "Cookie consent dialog opened. We use cookies to enhance your experience.";
       document.body.appendChild(announcement);
-      setTimeout(() => announcement.remove(), 1000);
+      announcementTimeoutRef.current = setTimeout(() => announcement.remove(), 1000);
     }
   }, [isVisible]);
 
@@ -134,7 +144,7 @@ export function CookieConsent() {
 
   const handleClose = useCallback(() => {
     setIsClosing(true);
-    setTimeout(() => {
+    closeTimeoutRef.current = setTimeout(() => {
       localStorage.setItem(COOKIE_CONSENT_KEY, "declined");
       setIsVisible(false);
       setIsClosing(false);

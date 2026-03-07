@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useId, useRef } from 'react';
+import { useState, useId, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
@@ -10,6 +10,18 @@ export function NewsletterSection() {
   // Refs for focus management on errors
   const nameInputRef = useRef<HTMLInputElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
+
+  // Refs for timeout cleanup
+  const submitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const successTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Cleanup timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (submitTimeoutRef.current) clearTimeout(submitTimeoutRef.current);
+      if (successTimeoutRef.current) clearTimeout(successTimeoutRef.current);
+    };
+  }, []);
 
   // Generate unique IDs for accessibility
   const formId = useId();
@@ -62,8 +74,8 @@ export function NewsletterSection() {
 
     if (!errors.name && !errors.email) {
       setFormState(prev => ({ ...prev, isSubmitting: true }));
-      // Simulate submission
-      setTimeout(() => {
+      // Simulate submission with proper cleanup
+      submitTimeoutRef.current = setTimeout(() => {
         setFormState(prev => ({
           ...prev,
           isSubmitting: false,
@@ -72,7 +84,7 @@ export function NewsletterSection() {
           email: '',
         }));
         // Reset success after 5s
-        setTimeout(() => {
+        successTimeoutRef.current = setTimeout(() => {
           setFormState(prev => ({ ...prev, isSuccess: false }));
         }, 5000);
       }, 1500);

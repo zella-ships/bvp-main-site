@@ -441,18 +441,16 @@ export function SubstackFeed() {
 
                 {/* Actions */}
                 <div className="flex flex-col items-center gap-3">
-                  <a
+                  <motion.a
                     href={modalPost.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setModalPost(null)}
-                    className="w-full px-8 py-4 text-base font-bold tracking-wide rounded-full inline-flex items-center justify-center gap-3 transition-all duration-300 active:scale-95"
-                    style={{
-                      backgroundColor: GREEN_DARK,
-                      color: CREAM,
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = GREEN_MID}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = GREEN_DARK}
+                    className="w-full px-8 py-4 text-base font-bold tracking-wide rounded-full inline-flex items-center justify-center gap-3"
+                    style={{ backgroundColor: GREEN_DARK, color: CREAM }}
+                    whileHover={{ backgroundColor: GREEN_MID }}
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
                   >
                     Read on Dark Green Report
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -460,17 +458,18 @@ export function SubstackFeed() {
                       <polyline points="15 3 21 3 21 9" />
                       <line x1="10" y1="14" x2="21" y2="3" />
                     </svg>
-                  </a>
+                  </motion.a>
 
-                  <button
+                  <motion.button
                     onClick={() => setModalPost(null)}
-                    className="px-6 py-3 text-sm transition-all duration-300"
-                    style={{ color: GREEN_MID, opacity: 0.5 }}
-                    onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8'; e.currentTarget.style.color = GREEN_DARK; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.opacity = '0.5'; e.currentTarget.style.color = GREEN_MID; }}
+                    className="px-6 py-3 text-sm"
+                    style={{ color: GREEN_MID }}
+                    initial={{ opacity: 0.5 }}
+                    whileHover={{ opacity: 0.8, color: GREEN_DARK }}
+                    transition={{ duration: 0.2 }}
                   >
                     Stay on BVP
-                  </button>
+                  </motion.button>
                 </div>
               </div>
 

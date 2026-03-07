@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 
 /**
@@ -10,20 +10,40 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
  * - Respects reduced motion preference
  * - 44px touch target (Apple HIG)
  * - Keyboard accessible
+ * - Throttled scroll handler for performance
  */
 export function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  const rafRef = useRef<number | null>(null);
+  const lastScrollY = useRef(0);
+
+  const toggleVisibility = useCallback(() => {
+    // Show button after scrolling 400px
+    const shouldShow = window.scrollY > 400;
+    if (shouldShow !== (lastScrollY.current > 400)) {
+      setIsVisible(shouldShow);
+    }
+    lastScrollY.current = window.scrollY;
+    rafRef.current = null;
+  }, []);
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      // Show button after scrolling 400px
-      setIsVisible(window.scrollY > 400);
+    const handleScroll = () => {
+      // Throttle with requestAnimationFrame for smooth 60fps updates
+      if (rafRef.current === null) {
+        rafRef.current = requestAnimationFrame(toggleVisibility);
+      }
     };
 
-    window.addEventListener('scroll', toggleVisibility, { passive: true });
-    return () => window.removeEventListener('scroll', toggleVisibility);
-  }, []);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, [toggleVisibility]);
 
   const scrollToTop = () => {
     window.scrollTo({

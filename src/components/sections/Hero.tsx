@@ -70,13 +70,21 @@ export function Hero({
     prefersReducedMotion ? ['0%', '0%'] : ['0%', '30%']
   );
 
-  // Track viewport for debug
+  // Track viewport for debug (debounced for performance)
   const [viewport, setViewport] = useState({ width: 0 });
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
     const update = () => setViewport({ width: window.innerWidth });
+    const debouncedUpdate = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(update, 150);
+    };
     update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
+    window.addEventListener('resize', debouncedUpdate);
+    return () => {
+      window.removeEventListener('resize', debouncedUpdate);
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   return (
