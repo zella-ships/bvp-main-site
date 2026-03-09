@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { submitToActionNetwork } from "@/lib/actionNetwork";
 
 // ============================================
 // TYPES
@@ -128,6 +129,32 @@ function SelectField({
   required,
   id,
 }: SelectFieldProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const selectedOption = options.find(opt => opt.value === value);
+  const displayText = selectedOption?.label || "Select one";
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close on escape key
+  useEffect(() => {
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setIsOpen(false);
+    }
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, []);
+
   return (
     <div className="flex flex-col">
       <label
@@ -137,14 +164,16 @@ function SelectField({
         {label}
         {required && " *"}
       </label>
-      <div className="relative">
+      <div className="relative" ref={dropdownRef}>
+        {/* Hidden native select for form submission */}
         <select
           id={id}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           required={required}
-          className="w-full bg-white border border-gray-300 text-black font-body text-base px-3.5 py-3 min-h-[44px] appearance-none transition-colors focus:border-black focus:outline-none pr-10"
-          aria-required={required}
+          className="sr-only"
+          aria-hidden="true"
+          tabIndex={-1}
         >
           <option value="">Select one</option>
           {options.map((opt) => (
@@ -153,8 +182,26 @@ function SelectField({
             </option>
           ))}
         </select>
+
+        {/* Custom dropdown trigger */}
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className={`w-full bg-white border text-left font-body text-base px-3.5 py-3 min-h-[44px] transition-colors focus:outline-none focus:border-black pr-10 ${
+            isOpen ? "border-black" : "border-gray-300"
+          } ${!value ? "text-gray-400" : "text-black"}`}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-labelledby={id}
+        >
+          {displayText}
+        </button>
+
+        {/* Dropdown arrow */}
         <svg
-          className="absolute right-3.5 top-1/2 -translate-y-1/2 w-2.5 h-1.5 pointer-events-none"
+          className={`absolute right-3.5 top-1/2 -translate-y-1/2 w-2.5 h-1.5 pointer-events-none transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
           viewBox="0 0 10 6"
           fill="none"
           aria-hidden="true"
@@ -166,6 +213,45 @@ function SelectField({
             strokeLinecap="round"
           />
         </svg>
+
+        {/* Dropdown menu */}
+        {isOpen && (
+          <div
+            className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 shadow-lg max-h-60 overflow-y-auto"
+            role="listbox"
+            aria-labelledby={id}
+          >
+            <div
+              className={`px-3.5 py-3 cursor-pointer transition-colors hover:bg-gray-100 ${
+                !value ? "bg-gray-50 font-medium" : ""
+              }`}
+              role="option"
+              aria-selected={!value}
+              onClick={() => {
+                onChange("");
+                setIsOpen(false);
+              }}
+            >
+              Select one
+            </div>
+            {options.map((opt) => (
+              <div
+                key={opt.value}
+                className={`px-3.5 py-3 cursor-pointer transition-colors hover:bg-gray-100 ${
+                  value === opt.value ? "bg-gray-50 font-medium" : ""
+                }`}
+                role="option"
+                aria-selected={value === opt.value}
+                onClick={() => {
+                  onChange(opt.value);
+                  setIsOpen(false);
+                }}
+              >
+                {opt.label}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -311,6 +397,8 @@ function MembershipCard({
 export default function JoinPage() {
   const [currentView, setCurrentView] = useState<ViewType>("main");
   const [basicExpanded, setBasicExpanded] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
 
   // Basic member form state
@@ -384,16 +472,83 @@ export default function JoinPage() {
     }
   }, []);
 
-  const handleBasicSubmit = (e: React.FormEvent) => {
+  const handleBasicSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, submit to API
-    handleViewChange("success");
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      await submitToActionNetwork({
+        firstName: basicForm.firstName,
+        lastName: basicForm.lastName,
+        email: basicForm.email,
+        zipCode: basicForm.zipCode,
+        signupAs: basicForm.memberType || 'affiliate',
+      });
+
+      handleViewChange("success");
+    } catch (error) {
+      console.error('Action Network submission failed:', error);
+      setSubmitError('Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleAdvocateSubmit = (e: React.FormEvent) => {
+  const handleAdvocateSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In production, submit to API
-    handleViewChange("success");
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      // Map form data to Action Network format
+      const experiences: string[] = [];
+      if (advocateForm.experiences.financial) experiences.push('Financial hardship');
+      if (advocateForm.experiences.housing) experiences.push('Housing insecurity');
+      if (advocateForm.experiences.food) experiences.push('Food insecurity');
+      if (advocateForm.experiences.unemployment) experiences.push('Unemployment');
+      if (advocateForm.experiences.mentalHealth) experiences.push('Mental health challenges');
+      if (advocateForm.experiences.addiction) experiences.push('Addiction');
+      if (advocateForm.experiences.probation) experiences.push('Probation');
+      if (advocateForm.experiences.incarceration) experiences.push('Incarceration');
+
+      const storyTypes: string[] = [];
+      if (advocateForm.storyInterests.injustice) storyTypes.push('Injustice');
+      if (advocateForm.storyInterests.heroism) storyTypes.push('Heroism');
+      if (advocateForm.storyInterests.inaccessibility) storyTypes.push('Inaccessibility');
+      if (advocateForm.storyInterests.achievement) storyTypes.push('Achievement');
+      if (advocateForm.storyInterests.other) storyTypes.push('Other');
+
+      await submitToActionNetwork({
+        firstName: advocateForm.firstName,
+        lastName: advocateForm.lastName,
+        email: advocateForm.email,
+        address: advocateForm.address,
+        zipCode: advocateForm.zipCode,
+        phone: advocateForm.phone,
+        titleAffiliation: advocateForm.title,
+        linkedin: advocateForm.linkedin,
+        signupAs: advocateForm.signUpAs,
+        race: advocateForm.race,
+        gender: advocateForm.gender,
+        currentEmployment: advocateForm.employment,
+        branch: advocateForm.branch,
+        serviceEra: advocateForm.serviceEra,
+        payGrade: advocateForm.payGrade,
+        dischargeStatus: advocateForm.dischargeStatus,
+        barriers: advocateForm.benefitsBarrier,
+        experiences,
+        storyTypes,
+        interestStatement: advocateForm.interest,
+      });
+
+      handleViewChange("success");
+    } catch (error) {
+      console.error('Action Network submission failed:', error);
+      setSubmitError('Something went wrong. Please try again or contact us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Member type options
@@ -683,11 +838,18 @@ export default function JoinPage() {
                         }
                       />
 
+                      {submitError && (
+                        <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-sm">
+                          {submitError}
+                        </div>
+                      )}
+
                       <button
                         type="submit"
-                        className="w-full py-4 bg-black text-white font-bold text-[17px] hover:bg-gray-900 transition-colors focus-visible:ring-2 focus-visible:ring-bvp-gold focus-visible:ring-offset-2"
+                        disabled={isSubmitting}
+                        className="w-full py-4 bg-black text-white font-bold text-[17px] hover:bg-gray-900 transition-colors focus-visible:ring-2 focus-visible:ring-bvp-gold focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        Join BVP →
+                        {isSubmitting ? 'Submitting...' : 'Join BVP →'}
                       </button>
 
                       <p className="text-[13px] text-gray-400 text-center">
@@ -909,255 +1071,263 @@ export default function JoinPage() {
                   }
                 />
 
-                <div className="h-px bg-gray-200 my-2" aria-hidden="true" />
+                {/* Military-specific sections - only show for veterans/active duty/reservist/guard */}
+                {(advocateForm.signUpAs === "veteran" ||
+                  advocateForm.signUpAs === "active" ||
+                  advocateForm.signUpAs === "reservist" ||
+                  advocateForm.signUpAs === "guard") && (
+                  <>
+                    <div className="h-px bg-gray-200 my-2" aria-hidden="true" />
 
-                {/* Military Connected */}
-                <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-gray-400">
-                  Military Connected
-                </p>
+                    {/* Military Connected */}
+                    <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-gray-400">
+                      Military Service
+                    </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <SelectField
-                    id="adv-branch"
-                    label="Branch"
-                    value={advocateForm.branch}
-                    onChange={(v) =>
-                      setAdvocateForm((f) => ({ ...f, branch: v as Branch }))
-                    }
-                    options={branchOptions}
-                    required
-                  />
-                  <SelectField
-                    id="adv-serviceEra"
-                    label="Service Era"
-                    value={advocateForm.serviceEra}
-                    onChange={(v) =>
-                      setAdvocateForm((f) => ({
-                        ...f,
-                        serviceEra: v as ServiceEra,
-                      }))
-                    }
-                    options={serviceEraOptions}
-                    required
-                  />
-                </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <SelectField
+                        id="adv-branch"
+                        label="Branch"
+                        value={advocateForm.branch}
+                        onChange={(v) =>
+                          setAdvocateForm((f) => ({ ...f, branch: v as Branch }))
+                        }
+                        options={branchOptions}
+                        required
+                      />
+                      <SelectField
+                        id="adv-serviceEra"
+                        label="Service Era"
+                        value={advocateForm.serviceEra}
+                        onChange={(v) =>
+                          setAdvocateForm((f) => ({
+                            ...f,
+                            serviceEra: v as ServiceEra,
+                          }))
+                        }
+                        options={serviceEraOptions}
+                        required
+                      />
+                    </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <InputField
-                    id="adv-payGrade"
-                    label="Pay Grade at Separation"
-                    placeholder="e.g., E-5, O-3"
-                    value={advocateForm.payGrade}
-                    onChange={(v) =>
-                      setAdvocateForm((f) => ({ ...f, payGrade: v }))
-                    }
-                  />
-                  <SelectField
-                    id="adv-dischargeStatus"
-                    label="Discharge Status"
-                    value={advocateForm.dischargeStatus}
-                    onChange={(v) =>
-                      setAdvocateForm((f) => ({
-                        ...f,
-                        dischargeStatus: v as DischargeStatus,
-                      }))
-                    }
-                    options={dischargeStatusOptions}
-                  />
-                </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <InputField
+                        id="adv-payGrade"
+                        label="Pay Grade at Separation"
+                        placeholder="e.g., E-5, O-3"
+                        value={advocateForm.payGrade}
+                        onChange={(v) =>
+                          setAdvocateForm((f) => ({ ...f, payGrade: v }))
+                        }
+                      />
+                      <SelectField
+                        id="adv-dischargeStatus"
+                        label="Discharge Status"
+                        value={advocateForm.dischargeStatus}
+                        onChange={(v) =>
+                          setAdvocateForm((f) => ({
+                            ...f,
+                            dischargeStatus: v as DischargeStatus,
+                          }))
+                        }
+                        options={dischargeStatusOptions}
+                      />
+                    </div>
 
-                <div className="h-px bg-gray-200 my-2" aria-hidden="true" />
+                    <div className="h-px bg-gray-200 my-2" aria-hidden="true" />
 
-                {/* Experiences */}
-                <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-gray-400">
-                  Have you experienced the following?
-                </p>
+                    {/* Veteran Experiences */}
+                    <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-gray-400">
+                      Have you experienced the following?
+                    </p>
 
-                <SelectField
-                  id="adv-benefitsBarrier"
-                  label="Barriers to Accessing Veterans Benefits"
-                  value={advocateForm.benefitsBarrier}
-                  onChange={(v) =>
-                    setAdvocateForm((f) => ({
-                      ...f,
-                      benefitsBarrier: v as BenefitsBarrier,
-                    }))
-                  }
-                  options={benefitsBarrierOptions}
-                />
+                    <SelectField
+                      id="adv-benefitsBarrier"
+                      label="Barriers to Accessing Veterans Benefits"
+                      value={advocateForm.benefitsBarrier}
+                      onChange={(v) =>
+                        setAdvocateForm((f) => ({
+                          ...f,
+                          benefitsBarrier: v as BenefitsBarrier,
+                        }))
+                      }
+                      options={benefitsBarrierOptions}
+                    />
 
-                <fieldset>
-                  <legend className="sr-only">
-                    Select any experiences that apply
-                  </legend>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <CheckboxField
-                      id="exp-financial"
-                      label="Financial Instability"
-                      checked={advocateForm.experiences.financial}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          experiences: { ...f.experiences, financial: v },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="exp-housing"
-                      label="Housing Instability"
-                      checked={advocateForm.experiences.housing}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          experiences: { ...f.experiences, housing: v },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="exp-food"
-                      label="Food Insecurity"
-                      checked={advocateForm.experiences.food}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          experiences: { ...f.experiences, food: v },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="exp-unemployment"
-                      label="Chronic Unemployment / Underemployment"
-                      checked={advocateForm.experiences.unemployment}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          experiences: { ...f.experiences, unemployment: v },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="exp-mentalHealth"
-                      label="Mental Health Crisis"
-                      checked={advocateForm.experiences.mentalHealth}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          experiences: { ...f.experiences, mentalHealth: v },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="exp-addiction"
-                      label="Addiction"
-                      checked={advocateForm.experiences.addiction}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          experiences: { ...f.experiences, addiction: v },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="exp-probation"
-                      label="Probation / Pre-Trial Deferral"
-                      checked={advocateForm.experiences.probation}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          experiences: { ...f.experiences, probation: v },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="exp-incarceration"
-                      label="Jail or Prison"
-                      checked={advocateForm.experiences.incarceration}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          experiences: { ...f.experiences, incarceration: v },
-                        }))
-                      }
-                    />
-                  </div>
-                </fieldset>
+                    <fieldset>
+                      <legend className="sr-only">
+                        Select any experiences that apply
+                      </legend>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <CheckboxField
+                          id="exp-financial"
+                          label="Financial Instability"
+                          checked={advocateForm.experiences.financial}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              experiences: { ...f.experiences, financial: v },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="exp-housing"
+                          label="Housing Instability"
+                          checked={advocateForm.experiences.housing}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              experiences: { ...f.experiences, housing: v },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="exp-food"
+                          label="Food Insecurity"
+                          checked={advocateForm.experiences.food}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              experiences: { ...f.experiences, food: v },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="exp-unemployment"
+                          label="Chronic Unemployment / Underemployment"
+                          checked={advocateForm.experiences.unemployment}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              experiences: { ...f.experiences, unemployment: v },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="exp-mentalHealth"
+                          label="Mental Health Crisis"
+                          checked={advocateForm.experiences.mentalHealth}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              experiences: { ...f.experiences, mentalHealth: v },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="exp-addiction"
+                          label="Addiction"
+                          checked={advocateForm.experiences.addiction}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              experiences: { ...f.experiences, addiction: v },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="exp-probation"
+                          label="Probation / Pre-Trial Deferral"
+                          checked={advocateForm.experiences.probation}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              experiences: { ...f.experiences, probation: v },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="exp-incarceration"
+                          label="Jail or Prison"
+                          checked={advocateForm.experiences.incarceration}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              experiences: { ...f.experiences, incarceration: v },
+                            }))
+                          }
+                        />
+                      </div>
+                    </fieldset>
 
-                <div className="h-px bg-gray-200 my-2" aria-hidden="true" />
+                    <div className="h-px bg-gray-200 my-2" aria-hidden="true" />
 
-                {/* Story Sharing */}
-                <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-gray-400">
-                  Are you interested in sharing details about your military
-                  experience?
-                </p>
+                    {/* Story Sharing */}
+                    <p className="text-[11px] font-bold uppercase tracking-[0.1em] text-gray-400">
+                      Are you interested in sharing details about your military
+                      experience?
+                    </p>
 
-                <fieldset>
-                  <legend className="sr-only">
-                    Select story types you're interested in sharing
-                  </legend>
-                  <div className="flex flex-col gap-3">
-                    <CheckboxField
-                      id="story-injustice"
-                      label="Stories of injustice in service"
-                      checked={advocateForm.storyInterests.injustice}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          storyInterests: { ...f.storyInterests, injustice: v },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="story-heroism"
-                      label="Stories of heroism/achievement in service"
-                      checked={advocateForm.storyInterests.heroism}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          storyInterests: { ...f.storyInterests, heroism: v },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="story-inaccessibility"
-                      label="Stories of inaccessibility to veterans' benefits"
-                      checked={advocateForm.storyInterests.inaccessibility}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          storyInterests: {
-                            ...f.storyInterests,
-                            inaccessibility: v,
-                          },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="story-achievement"
-                      label="Stories of achievement post-service"
-                      checked={advocateForm.storyInterests.achievement}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          storyInterests: {
-                            ...f.storyInterests,
-                            achievement: v,
-                          },
-                        }))
-                      }
-                    />
-                    <CheckboxField
-                      id="story-other"
-                      label="Other"
-                      checked={advocateForm.storyInterests.other}
-                      onChange={(v) =>
-                        setAdvocateForm((f) => ({
-                          ...f,
-                          storyInterests: { ...f.storyInterests, other: v },
-                        }))
-                      }
-                    />
-                  </div>
-                </fieldset>
+                    <fieldset>
+                      <legend className="sr-only">
+                        Select story types you're interested in sharing
+                      </legend>
+                      <div className="flex flex-col gap-3">
+                        <CheckboxField
+                          id="story-injustice"
+                          label="Stories of injustice in service"
+                          checked={advocateForm.storyInterests.injustice}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              storyInterests: { ...f.storyInterests, injustice: v },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="story-heroism"
+                          label="Stories of heroism/achievement in service"
+                          checked={advocateForm.storyInterests.heroism}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              storyInterests: { ...f.storyInterests, heroism: v },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="story-inaccessibility"
+                          label="Stories of inaccessibility to veterans' benefits"
+                          checked={advocateForm.storyInterests.inaccessibility}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              storyInterests: {
+                                ...f.storyInterests,
+                                inaccessibility: v,
+                              },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="story-achievement"
+                          label="Stories of achievement post-service"
+                          checked={advocateForm.storyInterests.achievement}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              storyInterests: {
+                                ...f.storyInterests,
+                                achievement: v,
+                              },
+                            }))
+                          }
+                        />
+                        <CheckboxField
+                          id="story-other"
+                          label="Other"
+                          checked={advocateForm.storyInterests.other}
+                          onChange={(v) =>
+                            setAdvocateForm((f) => ({
+                              ...f,
+                              storyInterests: { ...f.storyInterests, other: v },
+                            }))
+                          }
+                        />
+                      </div>
+                    </fieldset>
+                  </>
+                )}
 
                 <div className="h-px bg-gray-200 my-2" aria-hidden="true" />
 
@@ -1183,11 +1353,19 @@ export default function JoinPage() {
                   />
                 </div>
 
+                {/* Error Message */}
+                {submitError && (
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                    {submitError}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full py-4 bg-black text-white font-bold text-[17px] hover:bg-gray-900 transition-colors focus-visible:ring-2 focus-visible:ring-bvp-gold focus-visible:ring-offset-2 mt-2"
+                  disabled={isSubmitting}
+                  className="w-full py-4 bg-black text-white font-bold text-[17px] rounded-full border-2 border-black hover:bg-[#FDC500] hover:text-black hover:border-[#FDC500] transition-all duration-300 active:scale-95 focus-visible:ring-2 focus-visible:ring-bvp-gold focus-visible:ring-offset-2 mt-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-black disabled:hover:text-white"
                 >
-                  Join as Advocate →
+                  {isSubmitting ? 'Submitting...' : 'Join as Advocate →'}
                 </button>
               </form>
             </section>
