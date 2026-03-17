@@ -267,8 +267,8 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
             fill="url(#camo-green-venn)"
             style={{ opacity: getCamoOpacity('movement'), transition: 'opacity 0.4s ease-out' }}
           />
-          <text x={centers.movement.cx + 50} y={centers.movement.cy + 30} textAnchor="middle" fill={colors.movement.accent} style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.2em' }} className="uppercase pointer-events-none">
-            <tspan x={centers.movement.cx + 50}>Mobilization</tspan>
+          <text x={centers.movement.cx + 75} y={centers.movement.cy + 30} textAnchor="middle" fill={colors.movement.accent} style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.2em' }} className="uppercase pointer-events-none">
+            <tspan x={centers.movement.cx + 75}>Mobilization</tspan>
           </text>
         </g>
 
@@ -395,9 +395,9 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
         {/* CALLOUT: Litigation */}
         <g className={`transition-opacity duration-300 ${activeKey === 'litigation' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
           <circle cx="365" cy="430" r="4" fill={colors.litigation.accent} />
-          <line x1="365" y1="430" x2="30" y2="430" stroke={colors.litigation.accent} strokeWidth="1" />
-          <line x1="30" y1="430" x2="30" y2="450" stroke={colors.litigation.accent} strokeWidth="1" />
-          <foreignObject x="30" y="455" width="280" height="220">
+          <line x1="365" y1="430" x2="10" y2="430" stroke={colors.litigation.accent} strokeWidth="1" />
+          <line x1="10" y1="430" x2="10" y2="450" stroke={colors.litigation.accent} strokeWidth="1" />
+          <foreignObject x="10" y="455" width="260" height="220">
             <div>
               <p className="leading-[1.6] text-gray-700 mb-5" style={{ fontSize: '19px' }}>
                 {pillars.litigation.description}
