@@ -11,12 +11,21 @@ export const metadata: Metadata = {
     url: "https://blackveteransproject.org/privacy",
     siteName: "Black Veterans Project",
     type: "website",
+    images: [
+      {
+        url: "/images/hero-bg.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Black Veterans Project",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Privacy Policy | Black Veterans Project",
     description:
       "Learn how Black Veterans Project collects, uses, and protects your personal information.",
+    images: ["/images/hero-bg.jpg"],
   },
 };
 

@@ -11,12 +11,21 @@ export const metadata: Metadata = {
     url: "https://blackveteransproject.org/accessibility",
     siteName: "Black Veterans Project",
     type: "website",
+    images: [
+      {
+        url: "/images/hero-bg.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Black Veterans Project",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Accessibility Statement | Black Veterans Project",
     description:
       "Our commitment to digital accessibility for people with disabilities.",
+    images: ["/images/hero-bg.jpg"],
   },
 };
 

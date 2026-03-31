@@ -11,12 +11,21 @@ export const metadata: Metadata = {
     url: "https://blackveteransproject.org/donate",
     siteName: "Black Veterans Project",
     type: "website",
+    images: [
+      {
+        url: "/images/hero-bg.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Support Black Veterans Project",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Donate | Black Veterans Project",
     description:
       "Support reparative justice for Black veterans. Every donation helps build the case for repair.",
+    images: ["/images/hero-bg.jpg"],
   },
 };
 

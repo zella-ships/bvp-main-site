@@ -11,12 +11,21 @@ export const metadata: Metadata = {
     url: "https://blackveteransproject.org/press",
     siteName: "Black Veterans Project",
     type: "website",
+    images: [
+      {
+        url: "/images/narrative-hub.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Black Veterans Project Press & Media",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Press & Media | Black Veterans Project",
     description:
       "News and media coverage of the Black Veterans Project's work advancing reparative justice.",
+    images: ["/images/narrative-hub.jpg"],
   },
 };
 

@@ -11,12 +11,21 @@ export const metadata: Metadata = {
     url: "https://blackveteransproject.org/financials",
     siteName: "Black Veterans Project",
     type: "website",
+    images: [
+      {
+        url: "/images/hero-bg.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Black Veterans Project Financials",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Financials & Transparency | Black Veterans Project",
     description:
       "Access BVP's annual reports and Form 990 filings. Committed to transparency and accountability.",
+    images: ["/images/hero-bg.jpg"],
   },
 };
 

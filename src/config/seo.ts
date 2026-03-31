@@ -10,7 +10,7 @@ export const siteConfig = {
   description:
     "Advancing reparative justice for Black veterans and military families through litigation, narrative, and mobilization.",
   twitter: "@BlackVetProject",
-  ogImage: null, // TODO: Create default OG image at /public/og-default.jpg
+  ogImage: "/images/hero-home.png", // Default OG image
 };
 
 export interface PageSEO {
@@ -58,7 +58,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: false, // Using defaults from OG
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -81,7 +81,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -104,7 +104,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -127,7 +127,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -150,7 +150,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -173,7 +173,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -196,7 +196,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -219,7 +219,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -242,7 +242,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -265,7 +265,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -288,7 +288,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
   {
@@ -311,7 +311,7 @@ export const pagesSEO: PageSEO[] = [
       hasDescription: true,
       hasOgTags: true,
       hasTwitterTags: true,
-      hasOgImage: false,
+      hasOgImage: true,
     },
   },
 ];

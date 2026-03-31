@@ -8,10 +8,27 @@ export const metadata: Metadata = {
   title: "Black Veterans Project — Reparative Justice for Black Veterans",
   description:
     "Advancing reparative justice for Black veterans and military families through litigation, narrative, and mobilization.",
+  metadataBase: new URL("https://blackveteransproject.org"),
   openGraph: {
     title: "Black Veterans Project",
     description: "Advancing reparative justice for Black veterans and military families.",
     type: "website",
+    url: "https://blackveteransproject.org",
+    siteName: "Black Veterans Project",
+    images: [
+      {
+        url: "/images/hero-home.png",
+        width: 1200,
+        height: 630,
+        alt: "Black Veterans Project",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Black Veterans Project",
+    description: "Advancing reparative justice for Black veterans and military families.",
+    images: ["/images/hero-home.png"],
   },
   // Preconnect to CDN for faster resource loading
   other: {
