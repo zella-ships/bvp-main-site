@@ -141,14 +141,17 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
     narrative: {
       id: 'narrative',
       description: "Carries the evidence and stories into public understanding, shifting the nation's imagination so repair becomes thinkable.",
+      extendedDescription: "If we carry the stories of the veterans shaped by generations of benefit denial into public memory, art, and education, we shift the nation's imagination so that repair becomes thinkable and actionable across policy and culture.",
     },
     litigation: {
       id: 'litigation',
       description: 'Builds the case for repair through data and law, turning fragmented evidence into a shared record that compels accountability.',
+      extendedDescription: 'If we build the case for repair through data and law, we turn fragmented evidence into a shared record that quantifies harm and restores accountability across the institutional, legal, and administrative systems that shape public trust.',
     },
     movement: {
       id: 'mobilization',
       description: 'Organizes communities as stewards of repair, rebuilding collective power into coordinated action.',
+      extendedDescription: 'If we mobilize Black veteran communities as stewards of repair, we rebuild collective power into coordinated action that grows leadership, drives policy, and redirects resources.',
     },
   };
 
@@ -198,7 +201,7 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
       className="w-full max-w-[1400px] mx-auto my-12"
       onMouseLeave={resetState}
     >
-      <svg viewBox="0 0 1300 760" className="w-full h-auto">
+      <svg viewBox="-120 0 1520 760" className="w-full h-auto">
         <defs>
           <pattern id="camo-yellow-venn" patternUnits="userSpaceOnUse" width="200" height="200">
             <image href="/images/camo-yellow.png" width="200" height="200" preserveAspectRatio="xMidYMid slice" />
@@ -267,7 +270,7 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
             fill="url(#camo-green-venn)"
             style={{ opacity: getCamoOpacity('movement'), transition: 'opacity 0.4s ease-out' }}
           />
-          <text x={centers.movement.cx + 75} y={centers.movement.cy + 30} textAnchor="middle" fill={colors.movement.accent} style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.2em' }} className="uppercase pointer-events-none">
+          <text x={centers.movement.cx + 75} y={centers.movement.cy + 30} textAnchor="middle" fill="#FFFFFF" style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.2em' }} className="uppercase pointer-events-none">
             <tspan x={centers.movement.cx + 75}>Mobilization</tspan>
           </text>
         </g>
@@ -292,7 +295,7 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
             fill="url(#camo-red-venn)"
             style={{ opacity: getCamoOpacity('litigation'), transition: 'opacity 0.4s ease-out' }}
           />
-          <text x={centers.litigation.cx - 50} y={centers.litigation.cy + 30} textAnchor="middle" fill={colors.litigation.accent} style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.2em' }} className="uppercase pointer-events-none">
+          <text x={centers.litigation.cx - 50} y={centers.litigation.cy + 30} textAnchor="middle" fill="#FFFFFF" style={{ fontSize: '18px', fontWeight: 700, letterSpacing: '0.2em' }} className="uppercase pointer-events-none">
             <tspan x={centers.litigation.cx - 50}>Impact</tspan>
             <tspan x={centers.litigation.cx - 50} dy="28">Litigation</tspan>
           </text>
@@ -376,10 +379,13 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
           <circle cx="730" cy="210" r="4" fill={colors.narrative.accent} />
           <line x1="730" y1="210" x2="1040" y2="210" stroke={colors.narrative.accent} strokeWidth="1" />
           <line x1="1040" y1="210" x2="1040" y2="230" stroke={colors.narrative.accent} strokeWidth="1" />
-          <foreignObject x="1040" y="235" width="280" height="200">
+          <foreignObject x="1040" y="235" width="360" height="320">
             <div>
-              <p className="leading-[1.6] text-gray-700 mb-5" style={{ fontSize: '19px' }}>
+              <p className="leading-[1.6] text-gray-700 mb-4" style={{ fontSize: '19px' }}>
                 {pillars.narrative.description}
+              </p>
+              <p className="leading-[1.6] text-gray-700 mb-5" style={{ fontSize: '17px' }}>
+                {pillars.narrative.extendedDescription}
               </p>
               <button
                 onClick={(e) => handlePillarClick(e, pillars.narrative.id)}
@@ -395,12 +401,15 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
         {/* CALLOUT: Litigation */}
         <g className={`transition-opacity duration-300 ${activeKey === 'litigation' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
           <circle cx="365" cy="430" r="4" fill={colors.litigation.accent} />
-          <line x1="365" y1="430" x2="10" y2="430" stroke={colors.litigation.accent} strokeWidth="1" />
-          <line x1="10" y1="430" x2="10" y2="450" stroke={colors.litigation.accent} strokeWidth="1" />
-          <foreignObject x="10" y="455" width="260" height="220">
+          <line x1="365" y1="430" x2="-100" y2="430" stroke={colors.litigation.accent} strokeWidth="1" />
+          <line x1="-100" y1="430" x2="-100" y2="450" stroke={colors.litigation.accent} strokeWidth="1" />
+          <foreignObject x="-100" y="455" width="360" height="340">
             <div>
-              <p className="leading-[1.6] text-gray-700 mb-5" style={{ fontSize: '19px' }}>
+              <p className="leading-[1.6] text-gray-700 mb-4" style={{ fontSize: '19px' }}>
                 {pillars.litigation.description}
+              </p>
+              <p className="leading-[1.6] text-gray-700 mb-5" style={{ fontSize: '17px' }}>
+                {pillars.litigation.extendedDescription}
               </p>
               <button
                 onClick={(e) => handlePillarClick(e, pillars.litigation.id)}
@@ -418,10 +427,13 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
           <circle cx="875" cy="430" r="4" fill={colors.movement.accent} />
           <line x1="875" y1="430" x2="1040" y2="430" stroke={colors.movement.accent} strokeWidth="1" />
           <line x1="1040" y1="430" x2="1040" y2="450" stroke={colors.movement.accent} strokeWidth="1" />
-          <foreignObject x="1040" y="455" width="280" height="200">
+          <foreignObject x="1040" y="455" width="360" height="320">
             <div>
-              <p className="leading-[1.6] text-gray-700 mb-5" style={{ fontSize: '19px' }}>
+              <p className="leading-[1.6] text-gray-700 mb-4" style={{ fontSize: '19px' }}>
                 {pillars.movement.description}
+              </p>
+              <p className="leading-[1.6] text-gray-700 mb-5" style={{ fontSize: '17px' }}>
+                {pillars.movement.extendedDescription}
               </p>
               <button
                 onClick={(e) => handlePillarClick(e, pillars.movement.id)}
@@ -439,7 +451,7 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
           <circle cx="660" cy="415" r="4" fill="#C4985A" />
           <line x1="660" y1="415" x2="1040" y2="415" stroke="#C4985A" strokeWidth="1" />
           <line x1="1040" y1="415" x2="1040" y2="435" stroke="#C4985A" strokeWidth="1" />
-          <foreignObject x="1040" y="440" width="280" height="220">
+          <foreignObject x="1040" y="440" width="360" height="220">
             <div>
               <p className="font-bold tracking-[0.2em] uppercase text-[#C4985A] mb-3" style={{ fontSize: '15px' }}>Repair</p>
               <p className="leading-[1.6] italic text-black mb-4" style={{ fontSize: '19px' }}>
@@ -460,11 +472,13 @@ function VennDiagram({ onSectionClick }: { onSectionClick: (id: string) => void 
 function PillarCard({
   title,
   description,
+  extendedDescription,
   href,
   accentColor,
 }: {
   title: string;
   description: string;
+  extendedDescription?: string;
   href: string;
   accentColor: string;
 }) {
@@ -482,6 +496,14 @@ function PillarCard({
       >
         {description}
       </p>
+      {extendedDescription && (
+        <p
+          className="leading-relaxed text-gray-600 mb-3"
+          style={{ fontSize: 'clamp(0.875rem, 0.8rem + 0.4vw, 1rem)' }}
+        >
+          {extendedDescription}
+        </p>
+      )}
       <Link
         href={href}
         className="inline-flex items-center gap-1 font-bold text-sm hover:underline"
@@ -557,8 +579,7 @@ export default function OurWorkPage() {
       {/* HERO */}
       {/* ============================================== */}
       <section
-        className="relative flex items-end"
-        style={{ height: 'clamp(55vh, 65vw, 75vh)' }}
+        className="relative h-screen min-h-[600px] max-h-[1200px] flex items-end overflow-hidden bg-black"
       >
         <img
           src="/images/our-work-banner.jpg"
@@ -799,18 +820,21 @@ export default function OurWorkPage() {
                 <PillarCard
                   title="Impact Litigation"
                   description="Builds the case for repair through data and law, turning fragmented evidence into a shared record that compels accountability."
+                  extendedDescription="If we build the case for repair through data and law, we turn fragmented evidence into a shared record that quantifies harm and restores accountability across the institutional, legal, and administrative systems that shape public trust."
                   href="#litigation"
                   accentColor="#F44708"
                 />
                 <PillarCard
                   title="Narrative Hub"
                   description="Carries the evidence and stories into public understanding, shifting the nation's consciousness to imagine and envision repair as achievable."
+                  extendedDescription="If we carry the stories of the veterans shaped by generations of benefit denial into public memory, art, and education, we shift the nation's imagination so that repair becomes thinkable and actionable across policy and culture."
                   href="#narrative"
                   accentColor="#FDC500"
                 />
                 <PillarCard
                   title="Mobilization"
                   description="Organizes communities as stewards of repair, rebuilding collective power into coordinated action."
+                  extendedDescription="If we mobilize Black veteran communities as stewards of repair, we rebuild collective power into coordinated action that grows leadership, drives policy, and redirects resources."
                   href="#mobilization"
                   accentColor="#56C035"
                 />

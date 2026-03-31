@@ -871,8 +871,7 @@ export default function JoinPage() {
           >
             {/* Hero */}
             <section
-              className="relative flex items-end"
-              style={{ height: 'clamp(40vh, 50vw, 60vh)' }}
+              className="relative h-screen min-h-[600px] max-h-[1200px] flex items-end overflow-hidden bg-black"
             >
               <img
                 src="/images/join-banner.jpg"
@@ -889,7 +888,7 @@ export default function JoinPage() {
                 </p>
                 <h1
                   className="font-gunterz font-bold text-white uppercase"
-                  style={{ fontSize: 'clamp(1.75rem, 1rem + 3.5vw, 3rem)' }}
+                  style={{ fontSize: 'clamp(2rem, 1.5rem + 4vw, 3.75rem)' }}
                 >
                   Join Our Movement
                 </h1>
@@ -931,6 +930,15 @@ export default function JoinPage() {
                   <p className="text-xs font-bold uppercase tracking-[0.08em] text-gray-400">
                     Membership Categories
                   </p>
+
+                  {/* Veteran Card */}
+                  <MembershipCard
+                    id="veteran-card"
+                    title="Veteran"
+                    description="As a Veteran member, your experiences with the VA, your service, and your voice are central to building the case for repair."
+                    linkText="Register as a Veteran"
+                    onClick={() => handleViewChange("veteran")}
+                  />
 
                   {/* Affiliate Card */}
                   <MembershipCard
@@ -1071,15 +1079,6 @@ export default function JoinPage() {
                     description="As a full advocate, you're part of the community organizing corps — we train you to help us lead petition drives, call campaigns, town halls, and rapid-response moments. We'll plan assignments based on your location, service background, and interests. When we mobilize, you're in the room. When we need voices in a specific district, you'll hear from us directly. This is where membership becomes action."
                     linkText="Become an Advocate"
                     onClick={() => handleViewChange("advocate")}
-                  />
-
-                  {/* Veteran Card */}
-                  <MembershipCard
-                    id="veteran-card"
-                    title="Veteran"
-                    description="As a Veteran member, your experiences with the VA, your service, and your voice are central to building the case for repair."
-                    linkText="Register as a Veteran"
-                    onClick={() => handleViewChange("veteran")}
                   />
 
                   <p className="text-sm text-gray-400 leading-relaxed">

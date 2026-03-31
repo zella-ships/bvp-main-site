@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: "Financials & Transparency | Black Veterans Project",
     description:
       "Access BVP's annual reports and Form 990 filings. Committed to transparency and accountability.",
-    url: "https://blackveteransproject.org/financials",
+    url: "https://bvp-main-site.vercel.app/financials",
     siteName: "Black Veterans Project",
     type: "website",
     images: [

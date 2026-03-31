@@ -77,9 +77,15 @@ export function SubstackFeed() {
     return (
       <section
         className="border-t-4 border-[#FDC500] bg-white"
-        style={{ padding: 'clamp(3rem, 8vw, 8rem) clamp(1rem, 4vw, 5.75rem)' }}
+        style={{ paddingTop: 'clamp(3rem, 8vw, 8rem)', paddingBottom: 'clamp(3rem, 8vw, 8rem)' }}
       >
-        <div className="max-w-[1400px] mx-auto">
+        <div
+          className="max-w-[1400px] mx-auto"
+          style={{
+            paddingLeft: 'clamp(1rem, 4vw, 5.75rem)',
+            paddingRight: 'clamp(1rem, 4vw, 5.75rem)',
+          }}
+        >
           <div className="mb-8">
             <div className="h-4 w-32 bg-gray-200 rounded animate-pulse mb-3" />
             <div className="h-10 w-3/4 bg-gray-200 rounded animate-pulse" />
@@ -107,9 +113,15 @@ export function SubstackFeed() {
     return (
       <section
         className="border-t-4 border-[#FDC500] bg-white"
-        style={{ padding: 'clamp(3rem, 8vw, 8rem) clamp(1rem, 4vw, 5.75rem)' }}
+        style={{ paddingTop: 'clamp(3rem, 8vw, 8rem)', paddingBottom: 'clamp(3rem, 8vw, 8rem)' }}
       >
-        <div className="max-w-[1400px] mx-auto text-center">
+        <div
+          className="max-w-[1400px] mx-auto text-center"
+          style={{
+            paddingLeft: 'clamp(1rem, 4vw, 5.75rem)',
+            paddingRight: 'clamp(1rem, 4vw, 5.75rem)',
+          }}
+        >
           <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-2">
             From Our Substack
           </p>
@@ -180,9 +192,15 @@ export function SubstackFeed() {
     <>
       <section
         className="border-t-4 border-[#FDC500] bg-white"
-        style={{ padding: 'clamp(3rem, 8vw, 8rem) clamp(1rem, 4vw, 5.75rem)' }}
+        style={{ paddingTop: 'clamp(3rem, 8vw, 8rem)', paddingBottom: 'clamp(3rem, 8vw, 8rem)' }}
       >
-        <div className="max-w-[1400px] mx-auto">
+        <div
+          className="max-w-[1400px] mx-auto"
+          style={{
+            paddingLeft: 'clamp(1rem, 4vw, 5.75rem)',
+            paddingRight: 'clamp(1rem, 4vw, 5.75rem)',
+          }}
+        >
           {/* Featured Story */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 items-center">
             <div className="flex flex-col justify-center">
@@ -242,28 +260,33 @@ export function SubstackFeed() {
           {/* Secondary Stories Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {secondaryPosts.map((post, index) => (
-              <button
+              <div
                 key={post.link || index}
                 onClick={() => setModalPost(post)}
-                className="group relative bg-white shadow-sm rounded-2xl overflow-hidden text-left transition-all duration-300 hover:shadow-lg"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && setModalPost(post)}
+                className="group cursor-pointer transition-all duration-300 hover:-translate-y-1"
               >
-                <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#FDC500] z-10" />
-                <div className="h-72 overflow-hidden" style={{ backgroundColor: CREAM }}>
+                {/* Image section - completely separate, no wrapper interference */}
+                <div className="relative overflow-hidden rounded-t-2xl shadow-lg group-hover:shadow-2xl transition-shadow duration-500">
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#FDC500] z-10" />
                   {getPostImage(post) ? (
                     <img
                       src={getPostImage(post)!}
                       alt={post.title}
-                      className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-72 object-cover object-top transition-transform duration-500 group-hover:scale-105 block"
                       loading="lazy"
                     />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center transition-all duration-500 group-hover:scale-105 bg-black">
+                    <div className="w-full h-72 flex flex-col items-center justify-center bg-black">
                       <p className="text-xl font-gunterz font-bold text-white tracking-wide">BVP</p>
                       <p className="text-[10px] tracking-[2px] uppercase text-[#FDC500] mt-2">News</p>
                     </div>
                   )}
                 </div>
-                <div className="p-6">
+                {/* Content section - separate container */}
+                <div className="bg-white p-6 rounded-b-2xl border border-t-0 border-gray-100">
                   <span
                     className="inline-block text-[0.55rem] font-bold uppercase tracking-[0.2em] px-2 py-1 rounded-sm"
                     style={{ backgroundColor: '#0D0D0B', color: '#FFFFFF' }}
@@ -278,7 +301,7 @@ export function SubstackFeed() {
                   </p>
                   <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
                     <span className="text-sm" style={{ color: '#767670' }}>{formatDate(post.pubDate)}</span>
-                    <span className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide px-3 py-1.5 rounded-sm transition-all duration-200" style={{ color: '#0D0D0B', backgroundColor: 'transparent' }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#0D0D0B'; e.currentTarget.style.color = '#FDC500'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#0D0D0B'; }}>
+                    <span className="flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-black group-hover:text-[#FDC500] transition-colors">
                       Read More
                       <svg className="w-4 h-4 -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -286,7 +309,7 @@ export function SubstackFeed() {
                     </span>
                   </div>
                 </div>
-              </button>
+              </div>
             ))}
           </div>
 

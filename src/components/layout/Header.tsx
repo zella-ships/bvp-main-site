@@ -156,7 +156,6 @@ const lightBackgroundPages = [
   '/terms',
   '/privacy',
   '/accessibility',
-  '/join',
   '/donate',
 ];
 
@@ -255,7 +254,7 @@ export function Header() {
               width={180}
               height={90}
               className={cn(
-                "h-[48px] md:h-[56px] w-auto",
+                "h-[53px] md:h-[62px] w-auto",
                 isLightBackground ? "brightness-0" : "brightness-0 invert"
               )}
               priority

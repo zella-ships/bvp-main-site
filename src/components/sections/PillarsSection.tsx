@@ -438,11 +438,15 @@ export default function PillarsSection() {
       style={{
         paddingTop: 'clamp(3rem, 5vw, 5rem)',
         paddingBottom: 'clamp(6rem, 10vw, 8.75rem)',
-        paddingLeft: 'clamp(1rem, 4vw, 5.75rem)',
-        paddingRight: 'clamp(1rem, 4vw, 5.75rem)',
       }}
     >
-      <div className="max-w-[1400px] mx-auto">
+      <div
+        className="max-w-[1400px] mx-auto"
+        style={{
+          paddingLeft: 'clamp(1rem, 4vw, 5.75rem)',
+          paddingRight: 'clamp(1rem, 4vw, 5.75rem)',
+        }}
+      >
         {/* Section Title */}
         <h2
           className="font-gunterz font-bold text-black leading-tight"

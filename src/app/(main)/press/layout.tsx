@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: "Press & Media | Black Veterans Project",
     description:
       "News and media coverage of the Black Veterans Project's work advancing reparative justice.",
-    url: "https://blackveteransproject.org/press",
+    url: "https://bvp-main-site.vercel.app/press",
     siteName: "Black Veterans Project",
     type: "website",
     images: [

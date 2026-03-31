@@ -161,7 +161,7 @@ export function Footer() {
                 alt="Black Veterans Project"
                 width={180}
                 height={90}
-                className="h-[48px] md:h-[56px] w-auto brightness-0 invert"
+                className="h-[53px] md:h-[62px] w-auto brightness-0 invert"
               />
 
               {/* Copyright & Legal Links */}

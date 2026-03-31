@@ -6,7 +6,7 @@
 
 export const siteConfig = {
   name: "Black Veterans Project",
-  url: "https://blackveteransproject.org",
+  url: "https://bvp-main-site.vercel.app",
   description:
     "Advancing reparative justice for Black veterans and military families through litigation, narrative, and mobilization.",
   twitter: "@BlackVetProject",
@@ -45,7 +45,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Black Veterans Project",
       description: "Advancing reparative justice for Black veterans and military families.",
-      url: "https://blackveteransproject.org",
+      url: "https://bvp-main-site.vercel.app",
       image: null,
     },
     twitter: {
@@ -68,7 +68,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "About Us | Black Veterans Project",
       description: "Learn about the Black Veterans Project's mission to advance reparative justice for Black veterans and military families.",
-      url: "https://blackveteransproject.org/about",
+      url: "https://bvp-main-site.vercel.app/about",
       image: null,
     },
     twitter: {
@@ -91,7 +91,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Our Work | Black Veterans Project",
       description: "Research. Litigation. Narrative. Mobilization. Discover how BVP is building the case for repair.",
-      url: "https://blackveteransproject.org/our-work",
+      url: "https://bvp-main-site.vercel.app/our-work",
       image: null,
     },
     twitter: {
@@ -114,7 +114,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Join the Movement | Black Veterans Project",
       description: "Become a member of the Black Veterans Project. Support the fight for reparative justice for Black veterans.",
-      url: "https://blackveteransproject.org/join",
+      url: "https://bvp-main-site.vercel.app/join",
       image: null,
     },
     twitter: {
@@ -137,7 +137,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Donate | Black Veterans Project",
       description: "Support reparative justice for Black veterans. Every donation helps build the case for repair.",
-      url: "https://blackveteransproject.org/donate",
+      url: "https://bvp-main-site.vercel.app/donate",
       image: null,
     },
     twitter: {
@@ -160,7 +160,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Press & Media | Black Veterans Project",
       description: "News and media coverage of the Black Veterans Project's work advancing reparative justice.",
-      url: "https://blackveteransproject.org/press",
+      url: "https://bvp-main-site.vercel.app/press",
       image: null,
     },
     twitter: {
@@ -183,7 +183,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Contact Us | Black Veterans Project",
       description: "Have questions? Get in touch with the Black Veterans Project team.",
-      url: "https://blackveteransproject.org/contact",
+      url: "https://bvp-main-site.vercel.app/contact",
       image: null,
     },
     twitter: {
@@ -206,7 +206,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Frequently Asked Questions | Black Veterans Project",
       description: "Get answers to common questions about BVP's mission, membership, and advocacy work.",
-      url: "https://blackveteransproject.org/faq",
+      url: "https://bvp-main-site.vercel.app/faq",
       image: null,
     },
     twitter: {
@@ -229,7 +229,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Financials & Transparency | Black Veterans Project",
       description: "Access BVP's annual reports and Form 990 filings. Committed to transparency and accountability.",
-      url: "https://blackveteransproject.org/financials",
+      url: "https://bvp-main-site.vercel.app/financials",
       image: null,
     },
     twitter: {
@@ -252,7 +252,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Privacy Policy | Black Veterans Project",
       description: "Learn how Black Veterans Project collects, uses, and protects your personal information.",
-      url: "https://blackveteransproject.org/privacy",
+      url: "https://bvp-main-site.vercel.app/privacy",
       image: null,
     },
     twitter: {
@@ -275,7 +275,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Terms of Use | Black Veterans Project",
       description: "Terms and conditions for using the Black Veterans Project website.",
-      url: "https://blackveteransproject.org/terms",
+      url: "https://bvp-main-site.vercel.app/terms",
       image: null,
     },
     twitter: {
@@ -298,7 +298,7 @@ export const pagesSEO: PageSEO[] = [
     openGraph: {
       title: "Accessibility Statement | Black Veterans Project",
       description: "Our commitment to digital accessibility for people with disabilities.",
-      url: "https://blackveteransproject.org/accessibility",
+      url: "https://bvp-main-site.vercel.app/accessibility",
       image: null,
     },
     twitter: {

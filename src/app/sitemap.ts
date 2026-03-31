@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://blackveteransproject.org';
+  const baseUrl = 'https://bvp-main-site.vercel.app';
 
   // Core pages with high priority
   const corePages = [

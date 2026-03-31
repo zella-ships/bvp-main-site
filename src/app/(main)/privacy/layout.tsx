@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: "Privacy Policy | Black Veterans Project",
     description:
       "Learn how Black Veterans Project collects, uses, and protects your personal information.",
-    url: "https://blackveteransproject.org/privacy",
+    url: "https://bvp-main-site.vercel.app/privacy",
     siteName: "Black Veterans Project",
     type: "website",
     images: [

@@ -770,8 +770,7 @@ export default function AboutPage() {
       {/* HERO */}
       <section
         id="mission"
-        className="relative flex items-end scroll-mt-20 overflow-hidden bg-black"
-        style={{ height: 'clamp(50vh, 60vw, 70vh)' }}
+        className="relative h-screen min-h-[600px] max-h-[1200px] flex items-end scroll-mt-20 overflow-hidden bg-black"
       >
         {/* Background Image with Entrance Animation */}
         <motion.img
@@ -802,7 +801,7 @@ export default function AboutPage() {
             className="font-gunterz font-bold text-white uppercase"
             style={{ fontSize: 'clamp(2rem, 1.5rem + 4vw, 3.75rem)' }}
           >
-            Building a Movement for Repair
+            Building a Movement
           </h1>
         </motion.div>
       </section>

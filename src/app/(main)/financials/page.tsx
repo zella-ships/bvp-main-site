@@ -38,16 +38,9 @@ function DocumentLink({ title, size, href }: DocumentItem) {
 // MAIN FINANCIALS PAGE
 // ============================================
 export default function FinancialsPage() {
-  const annualReports: DocumentItem[] = [
-    { title: "2025 Annual Report", size: "PDF • 2.4 MB", href: "#" },
-    { title: "2024 Annual Report", size: "PDF • 2.1 MB", href: "#" },
-    { title: "2023 Annual Report", size: "PDF • 1.9 MB", href: "#" },
-  ];
-
   const form990s: DocumentItem[] = [
-    { title: "2024 Form 990", size: "PDF • 850 KB", href: "#" },
-    { title: "2023 Form 990", size: "PDF • 820 KB", href: "#" },
-    { title: "2022 Form 990", size: "PDF • 790 KB", href: "#" },
+    { title: "2024 Form 990", size: "PDF • 263 KB", href: "/documents/2024-990-BVP.pdf" },
+    { title: "2023 Form 990", size: "PDF • 250 KB", href: "/documents/2023-990-BVP.pdf" },
   ];
 
   return (
@@ -74,19 +67,8 @@ export default function FinancialsPage() {
         <div className="max-w-[900px]">
           <p className="text-xl leading-relaxed mb-12 text-gray-700">
             Black Veterans Project is committed to transparency and
-            accountability. Below you'll find our annual reports, financial
-            statements, and IRS Form 990 filings.
+            accountability. Below you'll find our IRS Form 990 filings.
           </p>
-
-          {/* Annual Reports */}
-          <h2 className="font-gunterz font-bold text-2xl mb-6">
-            Annual Reports
-          </h2>
-          <div className="space-y-4 mb-12">
-            {annualReports.map((doc) => (
-              <DocumentLink key={doc.title} {...doc} />
-            ))}
-          </div>
 
           {/* Form 990s */}
           <h2 className="font-gunterz font-bold text-2xl mb-6">IRS Form 990</h2>
@@ -106,7 +88,7 @@ export default function FinancialsPage() {
               Donations are tax-deductible to the fullest extent allowed by law.
             </p>
             <p className="text-lg text-gray-700 leading-relaxed">
-              <strong>EIN:</strong> XX-XXXXXXX
+              <strong>EIN:</strong> 83-4476025
             </p>
           </div>
 
